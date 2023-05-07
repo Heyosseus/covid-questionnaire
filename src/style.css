@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+    font-family: 'contractica';
+    src: url(./fonts/TBCContractica-Medium.ttf), format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'contractica', sans-serif;
+    /* font-family: 'Anonymous Pro', monospace; */
+    /* background-color: #f1f1f1; */
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
