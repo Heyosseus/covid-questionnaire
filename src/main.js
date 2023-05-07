@@ -8,7 +8,7 @@ const routes = [
   { path: '/', component: () => import('./pages/Home.vue') },
   {
     path: '/identification',
-    component: () => import('./pages/PersonalInfo.vue'),
+    component: () => import('./pages/PersonalInf o.vue'),
   },
   {
     path: '/survey',
