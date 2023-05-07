@@ -10,49 +10,49 @@
 
     <main class="flex justify-between">
       <div class="h-[512px] mt-20">
-        <keep-alive>
-          <form
-            @click.prevent="submit"
-            method="POST"
-            class="flex flex-col w-[513px] tracking-wide"
-          >
-            <label for="name" class="font-bold">სახელი*</label>
-            <input
-              type="text"
-              class="p-3 rounded border border-gray-300 mt-1 outline-0"
-              placeholder="იოსებ"
-              id="name"
-              v-model="name"
-            />
-            <span v-if="nameError" class="text-red-500 mt-1 ml-4">{{
-              nameError
-            }}</span>
-            <label for="surname" class="font-bold mt-6">გვარი*</label>
-            <input
-              type="text"
-              class="p-3 rounded border border-gray-300 mt-1 outline-0"
-              placeholder="ჯუღაშვილი"
-              id="surname"
-              v-model="surname"
-            />
-            <span
-              v-if="surnameError"
-              class="text-red-500 mt-1 ml-4"
-              >{{ surnameError }}</span
-            >
-            <label for="email" class="font-bold mt-6">მეილი*</label>
-            <input
-              type="email"
-              class="p-3 rounded border border-gray-300 mt-1 outline-0"
-              placeholder="fbi@redberry.ge"
-              id="email"
-              v-model="email"
-            />
-            <span v-if="emailError" class="text-red-500 mt-1 ml-4">{{
-              emailError
-            }}</span>
-          </form>
-        </keep-alive>
+        <form
+          @submit="submit"
+          class="flex flex-col w-[513px] tracking-wide"
+        >
+          <label for="name" class="font-bold">სახელი*</label>
+          <input
+            type="text"
+            class="p-3 rounded border border-gray-300 mt-1 outline-0"
+            placeholder="იოსებ"
+            id="name"
+            v-model="name"
+            v-bind="nameValidationListeners"
+          />
+
+          <span class="text-red-500 mt-1 ml-4">{{
+            nameErrorMessage
+          }}</span>
+          <label for="surname" class="font-bold mt-6">გვარი*</label>
+          <input
+            type="text"
+            class="p-3 rounded border border-gray-300 mt-1 outline-0"
+            placeholder="ჯუღაშვილი"
+            v-model="surname"
+            v-bind="surnameValidationListeners"
+          />
+
+          <span class="text-red-500 mt-1 ml-4">{{
+            surnameErrorMessage
+          }}</span>
+          <label for="email" class="font-bold mt-6">მეილი*</label>
+          <input
+            type="email"
+            class="p-3 rounded border border-gray-300 mt-1 outline-0"
+            placeholder="fbi@redberry.ge"
+            id="email"
+            v-model="email"
+            v-bind="emailValidationListeners"
+          />
+
+          <span class="text-red-500 mt-1 ml-4">{{
+            emailErrorMessage
+          }}</span>
+        </form>
         <div class="mt-24">
           <div class="h-[1px] w-64 bg-gray-500"></div>
           <p class="text-gray-500 mt-4">
@@ -62,7 +62,7 @@
       </div>
       <img src="../assets/couple.png" alt="" class="" width="800" />
     </main>
-    <button type="submit">click</button>
+    <button @submit="submit">click</button>
     <router-link to="/survey">
       <img src="../assets/next.png" alt="" class="mx-auto mt-24" />
     </router-link>
@@ -70,85 +70,44 @@
 </template>
 
 <script>
-import { reactive, toRefs, watch } from 'vue';
-import store from '../store/index';
+import { useNameValidation } from '../validations/nameValidation';
+import { useSurnameValidation } from '../validations/surnameValidation';
+import { useEmailValidation } from '../validations/emailValidation';
+import { computed } from 'vue';
+
 export default {
   setup() {
-    const state = reactive({
-      name: localStorage.getItem('name') || '',
-      surname: localStorage.getItem('surname') || '',
-      email: localStorage.getItem('email') || '',
-      nameError: null,
-      surnameError: null,
-      emailError: null,
-    });
+    const { name, nameErrorMessage, nameValidationListeners } =
+      useNameValidation();
 
-    const submit = () => {
-      store.commit('setName', state.name);
-      store.commit('setSurname', state.surname);
-      store.commit('setEmail', state.email);
+    const {
+      surname,
+      surnameErrorMessage,
+      surnameValidationListeners,
+    } = useSurnameValidation();
+
+    const { email, emailErrorMessage, emailValidationListeners } =
+      useEmailValidation();
+
+    function submit() {
+      console.log('submit');
+    }
+
+    return {
+      name,
+      nameErrorMessage,
+      nameValidationListeners,
+      surname,
+      surnameErrorMessage,
+      surnameValidationListeners,
+      email,
+      emailErrorMessage,
+      emailValidationListeners,
+      submit,
     };
-
-    const validateForm = () => {
-      let isValid = true;
-
-      if (!state.name) {
-        state.nameError = 'სახელის ველი სავალდებულოა';
-        isValid = false;
-      } else if (state.name.length < 3) {
-        state.nameError =
-          'სახელის ველი უნდა შედგებოდეს მინიმუმ 3 სიმბოლოსგან';
-        isValid = false;
-      } else if (state.name.length > 255) {
-        state.nameError =
-          'სახელის ველი უნდა შედგებოდეს 255 სიმბოლოსგან';
-        isValid = false;
-      } else {
-        state.nameError = null;
-      }
-
-      if (!state.surname) {
-        state.surnameError = 'გვარის ველი სავალდებულოა';
-        isValid = false;
-      } else if (state.surname.length < 3) {
-        state.surnameError =
-          'გვარის ველი უნდა შედგებოდეს მინიმუმ 3 სიმბოლოსგან';
-        isValid = false;
-      } else if (state.surname.length > 255) {
-        state.surnameError =
-          'გვარის ველი უნდა შედგებოდეს 255 სიმბოლოსგან';
-        isValid = false;
-      } else {
-        state.surnameError = null;
-      }
-
-      if (!state.email) {
-        state.emailError = 'იმეილი სავალდებულოა';
-        isValid = false;
-      } else if (!/^[\w-.]+@redberry\.ge$/.test(state.email)) {
-        state.emailError =
-          'გთხოვთ დარეგისტრირდეთ Redberry-ს მეილით (youremail@redberry.ge)';
-        isValid = false;
-      } else if (!/\S+@\S+\.\S+/.test(state.email)) {
-        state.emailError = 'თქვენ მიერ შეყვანილი მეილი არასწორია';
-        isValid = false;
-      } else {
-        state.emailError = null;
-      }
-
-      return isValid;
-    };
-
-    watch(
-      () => [state.name, state.surname, state.email],
-      () => {
-        validateForm();
-      },
-      { deep: true }
-    );
-    return { ...toRefs(state), submit };
   },
 };
+
 </script>
 
 <style></style>
