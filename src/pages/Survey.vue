@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/LOGO.png" alt="" />
+        <img src="@/assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">2/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -82,14 +82,14 @@
           <input type="date" class="w-96 mt-6" />
         </div>
       </form>
-      <img src="../assets/gumBoy.png" alt="" width="900" />
+      <img src="@/assets/images/gumBoy.png" alt="" width="900" />
     </main>
     <div class="flex items-center justify-center space-x-28">
-      <router-link to="/identification">
-        <img src="../assets/previous.png" alt="" />
+      <router-link :to="{name: 'personal'}">
+        <img src="@/assets/images/previous.png" alt="" />
       </router-link>
-      <router-link to="/vaccine">
-        <img src="../assets/next.png" alt="" />
+      <router-link :to="{name: 'vaccine'}">
+        <img src="@/assets/images/next.png" alt="" />
       </router-link>
     </div>
   </div>

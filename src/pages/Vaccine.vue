@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/LOGO.png" alt="" />
+        <img src="@/assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">3/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -72,9 +72,13 @@
               პირველი დოზა და არ დავრეგისტრირებულვარ მეორეზე
             </label>
           </div>
-           <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
+          <div
+            v-if="showLink"
+            class="mt-16 font-semibold text-lg ml-6"
+          >
             <p>
-              რომ არ გადადო, <br> ბარემ ახლავე დარეგისტრირდი
+              რომ არ გადადო, <br />
+              ბარემ ახლავე დარეგისტრირდი
             </p>
 
             <p class="mt-6">👉 რეგისტრაციის ბმული</p>
@@ -117,7 +121,10 @@
               გადატანილი მაქვს და ვგეგმავ აცრას
             </label>
           </div>
-          <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
+          <div
+            v-if="showLink"
+            class="mt-16 font-semibold text-lg ml-6"
+          >
             <p>
               ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
               შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
@@ -130,15 +137,15 @@
           </div>
         </div>
       </form>
-      <img src="../assets/doctor.png" alt="" />
+      <img src="@/assets/images/doctor.png" alt="" />
     </main>
     <div class="flex items-center justify-center space-x-28 mt-16">
-      <router-link to="/survey">
-        <img src="../assets/previous.png" alt="" />
+      <router-link :to="{name: 'survey'}">
+        <img src="@/assets/images/previous.png" alt="" />
       </router-link>
 
-      <router-link to="/tips">
-        <img src="../assets/next.png" alt="" />
+      <router-link :to="{name: 'tips'}">
+        <img src="@/assets/images/next.png" alt="" />
       </router-link>
     </div>
   </div>
@@ -162,7 +169,6 @@ const showLevelHandlerForNo = () => {
 const showLinkHandler = () => {
   showLink.value = true;
 };
-
 </script>
 
 <style></style>

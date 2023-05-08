@@ -1,11 +1,15 @@
-import {  useField } from 'vee-validate';
+import { useField } from 'vee-validate';
 
 export function useNameValidation() {
+  const nameFromLocalStorage = localStorage.getItem('name') || '';
+
   const {
     value: name,
     errorMessage: nameErrorMessage,
     ...nameValidationListeners
-  } = useField('name', validateName);
+  } = useField('name', validateName, {
+    initialValue: nameFromLocalStorage,
+  });
 
   function validateName(value) {
     if (!value) {

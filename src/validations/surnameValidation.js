@@ -1,11 +1,15 @@
-import {  useField } from 'vee-validate';
+import { useField } from 'vee-validate';
 
 export function useSurnameValidation() {
+  const surnameFromLocalStorage =
+    localStorage.getItem('surname') || '';
   const {
     value: surname,
     errorMessage: surnameErrorMessage,
     ...surnameValidationListeners
-  } = useField('surname', validateSurname);
+  } = useField('surname', validateSurname, {
+    initialValue: surnameFromLocalStorage,
+  });
 
   function validateSurname(value) {
     if (!value) {
