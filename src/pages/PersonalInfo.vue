@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/LOGO.png" alt="" />
+        <img src="../assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">1/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -21,7 +21,6 @@
             placeholder="იოსებ"
             id="name"
             v-model="name"
-            v-bind="nameValidationListeners"
           />
 
           <span class="text-red-500 mt-1 ml-4">{{
@@ -33,7 +32,6 @@
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="ჯუღაშვილი"
             v-model="surname"
-            v-bind="surnameValidationListeners"
           />
 
           <span class="text-red-500 mt-1 ml-4">{{
@@ -46,7 +44,6 @@
             placeholder="fbi@redberry.ge"
             id="email"
             v-model="email"
-            v-bind="emailValidationListeners"
           />
 
           <span class="text-red-500 mt-1 ml-4">{{
@@ -60,54 +57,67 @@
           </p>
         </div>
       </div>
-      <img src="../assets/couple.png" alt="" class="" width="800" />
+      <img
+        src="../assets/images/couple.png"
+        alt=""
+        class=""
+        width="800"
+      />
     </main>
-    <button @submit="submit">click</button>
-    <router-link to="/survey">
-      <img src="../assets/next.png" alt="" class="mx-auto mt-24" />
+    <router-link :to="'/survey'">
+      <img
+        src="../assets/images/next.png"
+        alt=""
+        class="mx-auto mt-24"
+      />
     </router-link>
   </div>
 </template>
 
-<script>
+<script setup>
 import { useNameValidation } from '../validations/nameValidation';
 import { useSurnameValidation } from '../validations/surnameValidation';
 import { useEmailValidation } from '../validations/emailValidation';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 
-export default {
-  setup() {
-    const { name, nameErrorMessage, nameValidationListeners } =
-      useNameValidation();
+const { name, nameErrorMessage } = useNameValidation();
 
-    const {
-      surname,
-      surnameErrorMessage,
-      surnameValidationListeners,
-    } = useSurnameValidation();
+const { surname, surnameErrorMessage } = useSurnameValidation();
 
-    const { email, emailErrorMessage, emailValidationListeners } =
-      useEmailValidation();
+const { email, emailErrorMessage } = useEmailValidation();
 
-    function submit() {
-      console.log('submit');
-    }
-
-    return {
-      name,
-      nameErrorMessage,
-      nameValidationListeners,
-      surname,
-      surnameErrorMessage,
-      surnameValidationListeners,
-      email,
-      emailErrorMessage,
-      emailValidationListeners,
-      submit,
-    };
-  },
+const isValid = () => {
+  return (
+    nameErrorMessage.value === undefined &&
+    name.value !== '' &&
+    surnameErrorMessage.value === undefined &&
+    surname.value !== '' &&
+    emailErrorMessage.value === undefined &&
+    email.value !== ''
+  );
 };
 
+watch(
+  [nameErrorMessage, surnameErrorMessage, emailErrorMessage],
+  (newValues) => {
+    console.log(newValues);
+    console.log(name.value);
+  }
+);
+
+console.log(isValid.value);
+
+onBeforeRouteLeave((to, _, next) => {
+  if (to.path === '/survey' && !isValid()) {
+    next(false);
+  } else {
+    localStorage.setItem('name', name.value);
+    localStorage.setItem('surname', surname.value);
+    localStorage.setItem('email', email.value);
+    next();
+  }
+});
 </script>
 
 <style></style>
