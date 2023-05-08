@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/images/LOGO.png" alt="" />
+        <img src="@/assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">4/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -65,7 +65,7 @@
         </div>
       </form>
       <img
-        src="../assets/images/bicycle.png"
+        src="@/assets/images/bicycle.png"
         alt=""
         width="650"
         class="mt-14"
@@ -150,9 +150,9 @@
         დასრულება
       </button>
     </div>
-    <router-link to="/vaccine">
+    <router-link :to="{ name: 'vaccine' }">
       <img
-        src="../assets/images/previous.png"
+        src="@/assets/images/previous.png"
         alt=""
         class="mx-auto mt-20"
       />

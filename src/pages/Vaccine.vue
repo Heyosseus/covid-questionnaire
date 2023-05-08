@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/images/LOGO.png" alt="" />
+        <img src="@/assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">3/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -137,15 +137,15 @@
           </div>
         </div>
       </form>
-      <img src="../assets/images/doctor.png" alt="" />
+      <img src="@/assets/images/doctor.png" alt="" />
     </main>
     <div class="flex items-center justify-center space-x-28 mt-16">
-      <router-link to="/survey">
-        <img src="../assets/images/previous.png" alt="" />
+      <router-link :to="{name: 'survey'}">
+        <img src="@/assets/images/previous.png" alt="" />
       </router-link>
 
-      <router-link to="/tips">
-        <img src="../assets/images/next.png" alt="" />
+      <router-link :to="{name: 'tips'}">
+        <img src="@/assets/images/next.png" alt="" />
       </router-link>
     </div>
   </div>

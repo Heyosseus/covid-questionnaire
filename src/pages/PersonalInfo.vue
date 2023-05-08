@@ -2,7 +2,7 @@
   <div class="py-24 px-44">
     <header class="w-full">
       <div class="flex justify-between">
-        <img src="../assets/images/LOGO.png" alt="" />
+        <img src="@/assets/images/LOGO.png" alt="" />
         <div class="font-monospace text-2xl font-bold">1/4</div>
       </div>
       <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
@@ -58,15 +58,14 @@
         </div>
       </div>
       <img
-        src="../assets/images/couple.png"
+        src="@/assets/images/couple.png"
         alt=""
-        class=""
-        width="800"
+        class="w-[800px]"
       />
     </main>
-    <router-link :to="'/survey'">
+    <router-link :to="{ name: 'survey' }">
       <img
-        src="../assets/images/next.png"
+        src="@/assets/images/next.png"
         alt=""
         class="mx-auto mt-24"
       />
@@ -75,9 +74,9 @@
 </template>
 
 <script setup>
-import { useNameValidation } from '../validations/nameValidation';
-import { useSurnameValidation } from '../validations/surnameValidation';
-import { useEmailValidation } from '../validations/emailValidation';
+import { useNameValidation } from '@/validations/nameValidation';
+import { useSurnameValidation } from '@/validations/surnameValidation';
+import { useEmailValidation } from '@/validations/emailValidation';
 import { computed, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 
@@ -105,8 +104,6 @@ watch(
     console.log(name.value);
   }
 );
-
-console.log(isValid.value);
 
 onBeforeRouteLeave((to, _, next) => {
   if (to.path === '/survey' && !isValid()) {
