@@ -1,11 +1,14 @@
 import { useField } from 'vee-validate';
 
 export function useEmailValidation() {
+  const emailFromLocalStorage = localStorage.getItem('email') || '';
   const {
     value: email,
     errorMessage: emailErrorMessage,
     ...emailValidationListeners
-  } = useField('email', validateEmail);
+  } = useField('email', validateEmail, {
+    initialValue: emailFromLocalStorage,
+  });
 
   function validateEmail(value) {
     if (!value) {
