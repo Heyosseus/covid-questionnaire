@@ -1,12 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <header class="w-full">
-      <div class="flex justify-between">
-        <img src="@/assets/images/LOGO.png" alt="" />
-        <div class="font-monospace text-2xl font-bold">4/4</div>
-      </div>
-      <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
-    </header>
+    <Header :count="'4/4'" />
 
     <main class="flex justify-between">
       <form action="" class="mt-16 space-y-10 tracking-wide">
@@ -160,8 +154,8 @@
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import Header from '@/components/Header.vue';
 </script>
 
 <style></style>

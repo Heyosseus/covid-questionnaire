@@ -1,12 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <header class="w-full">
-      <div class="flex justify-between">
-        <img src="@/assets/images/LOGO.png" alt="" />
-        <div class="font-monospace text-2xl font-bold">2/4</div>
-      </div>
-      <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
-    </header>
+    <Header :count="'2/4'" />
     <main class="flex justify-between">
       <form action="" class="mt-16 space-y-10 tracking-wide">
         <div>
@@ -85,10 +79,10 @@
       <img src="@/assets/images/gumBoy.png" alt="" width="900" />
     </main>
     <div class="flex items-center justify-center space-x-28">
-      <router-link :to="{name: 'personal'}">
+      <router-link :to="{ name: 'personal' }">
         <img src="@/assets/images/previous.png" alt="" />
       </router-link>
-      <router-link :to="{name: 'vaccine'}">
+      <router-link :to="{ name: 'vaccine' }">
         <img src="@/assets/images/next.png" alt="" />
       </router-link>
     </div>
@@ -96,6 +90,7 @@
 </template>
 
 <script setup>
+import Header from '@/components/Header.vue';
 import { ref, watch } from 'vue';
 
 const showAnti = ref(false);
