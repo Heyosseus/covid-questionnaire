@@ -2,7 +2,7 @@ import { useField } from 'vee-validate';
 
 export function useSurnameValidation() {
   const surnameFromLocalStorage =
-    localStorage.getItem('surname') || '';
+    localStorage.getItem('last_name') || '';
   const {
     value: surname,
     errorMessage: surnameErrorMessage,

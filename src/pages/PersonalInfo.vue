@@ -103,8 +103,8 @@ onBeforeRouteLeave((to, _, next) => {
   if (to.path === '/survey' && !isValid()) {
     next(false);
   } else {
-    localStorage.setItem('name', name.value);
-    localStorage.setItem('surname', surname.value);
+    localStorage.setItem('first_name', name.value);
+    localStorage.setItem('last_name', surname.value);
     localStorage.setItem('email', email.value);
     next();
   }

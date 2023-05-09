@@ -2,70 +2,93 @@
   <div class="py-24 px-44">
     <Header :count="'3/4'" />
     <main class="flex justify-between">
-      <form action="" class="mt-16 space-y-10 tracking-wide">
-        <div>
-          <label for="" class="font-bold text-lg"
-            >უკვე აცრილი ხარ?*</label
-          >
+      <div class="flex-col">
+        <form
+          action=""
+          class="mt-16 space-y-10 tracking-wide"
+          @click="radioButtonHandler"
+        >
+          <div class="">
+            <label for="" class="font-bold text-lg"
+              >უკვე აცრილი ხარ?*</label
+            >
 
-          <div
-            class="flex flex-col mt-6 space-y-2 text-lg font-semibold w-36"
-          >
-            <label>
-              <input
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                @click="showLevelHandlerForYes"
-              />
-              კი
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                @click="showLevelHandlerForNo"
-              />
-              არა
-            </label>
+            <div
+              class="flex flex-col mt-6 space-y-2 text-lg font-semibold w-36"
+            >
+              <label for="vaccine-yes">
+                <input
+                  type="radio"
+                  name="covid-vaccine"
+                  id="vaccine-yes"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  @click="showLevelHandlerForYes"
+                  v-model="covidVaccine"
+                  value="yes"
+                />
+                კი
+              </label>
+              <label for="vaccine-no">
+                <input
+                  type="radio"
+                  name="covid-vaccine"
+                  id="vaccine-no"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  @click="showLevelHandlerForNo"
+                  v-model="covidVaccine"
+                  value="no"
+                />
+                არა
+              </label>
+            </div>
           </div>
-        </div>
+        </form>
         <!--  -->
-        <div v-if="showForYes">
-          <label for="" class="font-bold text-lg mt-6"
-            >აირჩიე რა ეტაპზე ხარ*</label
-          >
+        <div v-if="showForYes" class="mt-10">
+          <form action="" @click="levelHandler">
+            <label for="" class="font-bold text-lg mt-6"
+              >აირჩიე რა ეტაპზე ხარ*</label
+            >
 
-          <div
-            class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[600px]"
-          >
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-              />
-              პირველი დოზა და დარეგისტრირებული ვარ მეორეზე
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-              />
-              სრულად აცრილი ვარ
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                @click="showLinkHandler"
-              />
-              პირველი დოზა და არ დავრეგისტრირებულვარ მეორეზე
-            </label>
-          </div>
+            <div
+              class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[600px]"
+            >
+              <label for="first_and_registered">
+                <input
+                  type="radio"
+                  name="vaccine-level"
+                  id="first_and_registered"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="vaccinatedlevel"
+                  value="first_and_registered"
+                />
+                პირველი დოზა და დარეგისტრირებული ვარ მეორეზე
+              </label>
+              <label for="vaccinated">
+                <input
+                  type="radio"
+                  name="vaccine-level"
+                  id="vaccinated"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="vaccinatedlevel"
+                  value="vaccinated"
+                />
+                სრულად აცრილი ვარ
+              </label>
+              <label for="first_and_not_registered">
+                <input
+                  type="radio"
+                  name="vaccine-level"
+                  id="first_and_not_registered"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  @click="showLinkHandler"
+                  v-model="vaccinatedlevel"
+                  value="first_and_not_registered"
+                />
+                პირველი დოზა და არ დავრეგისტრირებულვარ მეორეზე
+              </label>
+            </div>
+          </form>
           <div
             v-if="showLink"
             class="mt-16 font-semibold text-lg ml-6"
@@ -81,56 +104,62 @@
             >
           </div>
         </div>
-        <div v-if="showForNo">
-          <label for="" class="font-bold text-lg mt-6"
-            >რას ელოდები?*</label
-          >
-
-          <div
-            class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
-          >
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-              />
-              დარეგისტრირებული ვარ და ველოდები რიცხვს
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-              />
-              არ ვგეგმავ
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="vaccine-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                @click="showLinkHandler"
-              />
-              გადატანილი მაქვს და ვგეგმავ აცრას
-            </label>
-          </div>
-          <div
-            v-if="showLink"
-            class="mt-16 font-semibold text-lg ml-6"
-          >
-            <p>
-              ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
-              შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
-            </p>
-
-            <p class="mt-6">👉 რეგისტრაციის ბმული</p>
-            <a href="#" class="text-blue-600">
-              https://booking.moh.gov.ge/</a
+        <div v-if="showForNo" class="mt-10">
+          <form action="" @click="waitingForHandler">
+            <label for="" class="font-bold text-lg mt-6"
+              >რას ელოდები?*</label
             >
-          </div>
+
+            <div
+              class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
+            >
+              <label>
+                <input
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="waitingFor"
+                  value="registered_and_waiting_for_date"
+                />
+                დარეგისტრირებული ვარ და ველოდები რიცხვს
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="waitingFor"
+                  value="not_planning"
+                />
+                არ ვგეგმავ
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  @click="showLinkHandler"
+                  v-model="waitingFor"
+                  value="had_covid_and_planning"
+                />
+                გადატანილი მაქვს და ვგეგმავ აცრას
+              </label>
+            </div>
+          </form>
         </div>
-      </form>
+        <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
+          <p>
+            ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
+            შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
+          </p>
+
+          <p class="mt-6">👉 რეგისტრაციის ბმული</p>
+          <a href="#" class="text-blue-600">
+            https://booking.moh.gov.ge/</a
+          >
+        </div>
+      </div>
+
       <img src="@/assets/images/doctor.png" alt="" />
     </main>
     <div class="flex items-center justify-center space-x-28 mt-16">
@@ -148,10 +177,18 @@
 <script setup>
 import Header from '@/components/Header.vue';
 import { ref } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 
+const covidVaccine = ref(localStorage.getItem('had_vaccine') || null);
 const showForYes = ref(false);
 const showForNo = ref(false);
 const showLink = ref(false);
+
+const vaccinatedlevel = ref(
+  localStorage.getItem('vaccination_stage') || null
+);
+
+const waitingFor = ref(localStorage.getItem('waiting_for') || null);
 
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
@@ -164,6 +201,44 @@ const showLevelHandlerForNo = () => {
 const showLinkHandler = () => {
   showLink.value = true;
 };
+
+const radioButtonHandler = (e) => {
+  covidVaccine.value = e.target.value;
+  localStorage.setItem('had_vaccine', covidVaccine.value);
+};
+
+const levelHandler = (e) => {
+  vaccinatedlevel.value = e.target.value;
+  localStorage.setItem('vaccination_stage', vaccinatedlevel.value);
+};
+
+const waitingForHandler = (e) => {
+  waitingFor.value = e.target.value;
+  localStorage.setItem('waiting_for', waitingFor.value);
+};
+
+const isValid = () => {
+  if (
+    covidVaccine.value === 'yes' &&
+    vaccinatedlevel.value !== null
+  ) {
+    return true;
+  } else if (
+    covidVaccine.value === 'no' &&
+    vaccinatedlevel.value !== null
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+onBeforeRouteLeave((to, _, next) => {
+  if (to.path === '/tips' && !isValid()) {
+    next(false);
+  } else {
+    next();
+  }
+});
 </script>
 
 <style></style>
