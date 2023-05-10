@@ -140,10 +140,14 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
+import { mapState, useStore } from 'vuex';
+
+const store = useStore();
 
 const covidStatus = ref(localStorage.getItem('had_covid') || null);
+
 const vaccineStatus = ref(
   localStorage.getItem('had_antibody_test') || null
 );
@@ -170,12 +174,14 @@ const showNum = () => {
 const covidStatusHandler = (e) => {
   covidStatus.value = e.target.value;
   localStorage.setItem('had_covid', covidStatus.value);
+  store.commit('setCovidStatus', covidStatus.value);
   console.log(covidStatus.value);
 };
 
 const vaccineStatusHandler = (e) => {
   vaccineStatus.value = e.target.value;
   localStorage.setItem('had_antibody_test', vaccineStatus.value);
+  store.commit('setVaccineStatus', vaccineStatus.value);
   console.log(vaccineStatus.value);
 };
 

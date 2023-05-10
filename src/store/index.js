@@ -1,27 +1,9 @@
 import { createStore } from 'vuex';
-
+import { ref } from 'vue';
+import surveyModules from './modules/survey/index.js';
 const store = createStore({
-  state() {
-    return {
-      name: '',
-      surname: '',
-      email: '',
-    };
-  },
-  mutations: {
-    setName(state, name) {
-      state.name = name;
-      localStorage.setItem('name', name);
-    },
-    setSurname(state, surname) {
-      state.surname = surname;
-      localStorage.setItem('surname', surname);
-    },
-    setEmail(state, email) {
-      state.email = email;
-      localStorage.setItem('email', email);
-    },
-  },
+  state() {},
+  modules: surveyModules,
 });
 
 export default store;
