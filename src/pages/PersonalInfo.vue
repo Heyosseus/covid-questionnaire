@@ -71,8 +71,7 @@ import Header from '@/components/Header.vue';
 import { useNameValidation } from '@/validations/nameValidation';
 import { useSurnameValidation } from '@/validations/surnameValidation';
 import { useEmailValidation } from '@/validations/emailValidation';
-import { computed, watch } from 'vue';
-import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const { name, nameErrorMessage } = useNameValidation();
 
@@ -91,13 +90,6 @@ const isValid = () => {
   );
 };
 
-watch(
-  [nameErrorMessage, surnameErrorMessage, emailErrorMessage],
-  (newValues) => {
-    console.log(newValues);
-    console.log(name.value);
-  }
-);
 
 onBeforeRouteLeave((to, _, next) => {
   if (to.path === '/survey' && !isValid()) {

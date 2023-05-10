@@ -35,6 +35,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
                   value="no"
+                  @click="showAnti = false"
                 />
                 არა
               </label>
@@ -46,6 +47,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
                   value="Ihave"
+                  @click="showAnti = false"
                 />
                 ახლა მაქვს
               </label>
@@ -90,28 +92,30 @@
           </form>
         </div>
         <!--  -->
-        <div v-if="date" class="flex flex-col mt-10">
-          <form action="">
-            <label for="" class="font-bold text-lg mt-6"
-              >მიუთითე მიახლოებითი პერიოდი (დღე/თვე/წელი) <br />
-              როდის გქონდა Covid-19*</label
-            >
-            <input type="date" class="w-96 mt-6" />
-          </form>
+        <div v-if="date" class="flex flex-col mt-4">
+          <!-- <form action="" class="flex-col"> -->
+          <label for="" class="font-bold text-lg mt-6"
+            >მიუთითე მიახლოებითი პერიოდი (დღე/თვე/წელი) <br />
+            როდის გქონდა Covid-19*</label
+          >
+          <input type="date" class="w-96 mt-6" />
+          <!-- </form> -->
         </div>
 
         <div v-if="num" class="flex flex-col mt-10">
           <form action="" @click="antibodiesHandler">
-            <label for="" class="font-bold text-lg mt-6"
+            <label for="" class="font-bold text-lg"
               >თუ გახსოვს, გთხოვ მიუთითე ტესტის მიახლოებითი <br />
               რიცხვი და ანტისხეულების რაოდენობა*</label
             >
+            <br />
             <input
               type="date"
               class="w-96 mt-6"
               placeholder="რიცხვი"
               v-model="number"
             />
+            <br />
             <input
               type="number"
               class="w-96 mt-6"
