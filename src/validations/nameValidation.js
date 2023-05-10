@@ -1,7 +1,7 @@
 import { useField } from 'vee-validate';
 
 export function useNameValidation() {
-  const nameFromLocalStorage = localStorage.getItem('name') || '';
+  const nameFromLocalStorage = localStorage.getItem('first_name') || '';
 
   const {
     value: name,

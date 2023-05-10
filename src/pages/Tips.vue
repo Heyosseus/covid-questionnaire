@@ -1,15 +1,13 @@
 <template>
   <div class="py-24 px-44">
-    <header class="w-full">
-      <div class="flex justify-between">
-        <img src="@/assets/images/LOGO.png" alt="" />
-        <div class="font-monospace text-2xl font-bold">4/4</div>
-      </div>
-      <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
-    </header>
+    <Header :count="'4/4'" />
 
     <main class="flex justify-between">
-      <form action="" class="mt-16 space-y-10 tracking-wide">
+      <form
+        action=""
+        class="mt-16 space-y-10 tracking-wide"
+        @click="meetingHandler"
+      >
         <p class="w-[500px] tracking-wide font-xl mt-14">
           რედბერის მთავარი ღირებულება ჩვენი გუნდის თითოეული წევრია.
           გარემო, რომელსაც ჩვენი თანამშრომლები ქმნით, ბევრისთვის არის
@@ -34,6 +32,8 @@
                 type="radio"
                 name="covid-status"
                 class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                v-model="nonFormalMeeting"
+                value="twice_a_week"
               />
               კვირაში ორჯერ
             </label>
@@ -42,6 +42,8 @@
                 type="radio"
                 name="covid-status"
                 class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                v-model="nonFormalMeeting"
+                value="once_a_week"
               />
               კვირაში ერთხელ
             </label>
@@ -50,6 +52,8 @@
                 type="radio"
                 name="covid-status"
                 class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                v-model="nonFormalMeeting"
+                value="once_in_two_weeks"
               />
               ორ კვირაში ერთხელ
             </label>
@@ -58,6 +62,8 @@
                 type="radio"
                 name="covid-status"
                 class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                v-model="nonFormalMeeting"
+                value="once_a_month"
               />
               თვეში ერთხელ
             </label>
@@ -72,77 +78,99 @@
       />
     </main>
     <div class="">
-      <label for="" class="font-bold text-lg w-80"
-        >კვირაში რამდენი დღე ისურვებდი ოფისიდან
-        <br />მუშაობას?*</label
-      >
-      <div
-        class="flex flex-col mt-6 space-y-1 text-lg tracking-wider w-60"
-      >
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          0
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          1
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          2
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          3
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          4
-        </label>
+      <form action="" @click="attendanceHandler">
+        <label for="" class="font-bold text-lg w-80"
+          >კვირაში რამდენი დღე ისურვებდი ოფისიდან
+          <br />მუშაობას?*</label
+        >
+        <div
+          class="flex flex-col mt-6 space-y-1 text-lg tracking-wider w-60"
+        >
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="0"
+            />
+            0
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="1"
+            />
+            1
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="2"
+            />
+            2
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="3"
+            />
+            3
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="4"
+            />
+            4
+          </label>
 
-        <label>
-          <input
-            type="radio"
-            name="covid-status"
-            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-          />
-          5
-        </label>
-      </div>
+          <label>
+            <input
+              type="radio"
+              name="covid-status"
+              class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+              v-model="attendance"
+              value="5"
+            />
+            5
+          </label>
+        </div>
+      </form>
     </div>
     <div class="w-[522px]">
       <div class="flex flex-col mt-12">
         <label class="font-bold">
           რას ფიქრობ ფიზიკურ შეკრებებზე?</label
         >
-        <textarea class="py-12 resize-none mt-2" />
+        <textarea
+          class="py-12 resize-none mt-2"
+          v-model="meetingsInLive"
+          @blur="meetingsInLiveHandler"
+        />
       </div>
       <div class="flex flex-col w-[522px] mt-10">
         <label class="font-bold">
           რას ფიქრობ არსებულ გარემოზე: რა მოგწონს, რას დაამატებდი, რას
           შეცვლიდი?</label
         >
-        <textarea class="py-12 resize-none mt-2" />
+        <textarea
+          class="py-12 resize-none mt-2"
+          v-model="opnionAboutUs"
+          @blur="opnionAboutUsHandler"
+        />
       </div>
       <button
         class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
@@ -160,8 +188,47 @@
   </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import Header from '@/components/Header.vue';
+import { ref } from 'vue';
+
+const nonFormalMeeting = ref(
+  localStorage.getItem('non_formal_meeting') || null
+);
+
+const attendance = ref(localStorage.getItem('attendance') || null);
+
+const meetingsInLive = ref(
+  localStorage.getItem('what_about_meetings_in_live') || null
+);
+const opnionAboutUs = ref(
+  localStorage.getItem('tell_us_your_opinion_about_us') || null
+);
+
+const meetingHandler = (e) => {
+  nonFormalMeeting.value = e.target.value;
+  localStorage.setItem('non_formal_meeting', nonFormalMeeting.value);
+};
+
+const attendanceHandler = (e) => {
+  attendance.value = e.target.value;
+  localStorage.setItem('attendance', attendance.value);
+};
+
+const meetingsInLiveHandler = (e) => {
+  meetingsInLive.value = e.target.value;
+  localStorage.setItem(
+    'what_about_meetings_in_live',
+    meetingsInLive.value
+  );
+};
+const opnionAboutUsHandler = (e) => {
+  opnionAboutUs.value = e.target.value;
+  localStorage.setItem(
+    'tell_us_your_opinion_about_us',
+    opnionAboutUs.value
+  );
+};
 </script>
 
 <style></style>

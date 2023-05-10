@@ -1,13 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <header class="w-full">
-      <div class="flex justify-between">
-        <img src="@/assets/images/LOGO.png" alt="" />
-        <div class="font-monospace text-2xl font-bold">1/4</div>
-      </div>
-      <div class="h-0.5 w-full bg-slate-800 mt-4"></div>
-    </header>
-
+    <Header :count="'1/4'" />
     <main class="flex justify-between">
       <div class="h-[512px] mt-20">
         <form
@@ -74,11 +67,11 @@
 </template>
 
 <script setup>
+import Header from '@/components/Header.vue';
 import { useNameValidation } from '@/validations/nameValidation';
 import { useSurnameValidation } from '@/validations/surnameValidation';
 import { useEmailValidation } from '@/validations/emailValidation';
-import { computed, watch } from 'vue';
-import { onBeforeRouteLeave, useRouter } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const { name, nameErrorMessage } = useNameValidation();
 
@@ -97,20 +90,13 @@ const isValid = () => {
   );
 };
 
-watch(
-  [nameErrorMessage, surnameErrorMessage, emailErrorMessage],
-  (newValues) => {
-    console.log(newValues);
-    console.log(name.value);
-  }
-);
 
 onBeforeRouteLeave((to, _, next) => {
   if (to.path === '/survey' && !isValid()) {
     next(false);
   } else {
-    localStorage.setItem('name', name.value);
-    localStorage.setItem('surname', surname.value);
+    localStorage.setItem('first_name', name.value);
+    localStorage.setItem('last_name', surname.value);
     localStorage.setItem('email', email.value);
     next();
   }
