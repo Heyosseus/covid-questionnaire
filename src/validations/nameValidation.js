@@ -1,4 +1,6 @@
 import { useField } from 'vee-validate';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 export function useNameValidation() {
   const nameFromLocalStorage = localStorage.getItem('first_name') || '';

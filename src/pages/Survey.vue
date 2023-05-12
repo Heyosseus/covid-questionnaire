@@ -125,7 +125,16 @@
           </form>
         </div>
       </div>
-      <img src="@/assets/images/gumBoy.png" alt="" width="900" />
+      <div class="relative">
+        <img src="@/assets/images/gumBoy.png" alt="" width="900" />
+        <transition name="slide-out" appear key="survey">
+          <img
+            src="@/assets/logos/surveyLogo.png"
+            alt=""
+            class="absolute bottom-96 left-16 opacity-80"
+          />
+        </transition>
+      </div>
     </main>
     <div class="flex items-center justify-center space-x-28">
       <router-link :to="{ name: 'personal' }">
@@ -140,10 +149,14 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
+import { mapState, useStore } from 'vuex';
+
+const store = useStore();
 
 const covidStatus = ref(localStorage.getItem('had_covid') || null);
+
 const vaccineStatus = ref(
   localStorage.getItem('had_antibody_test') || null
 );
@@ -170,12 +183,14 @@ const showNum = () => {
 const covidStatusHandler = (e) => {
   covidStatus.value = e.target.value;
   localStorage.setItem('had_covid', covidStatus.value);
+  store.commit('setCovidStatus', covidStatus.value);
   console.log(covidStatus.value);
 };
 
 const vaccineStatusHandler = (e) => {
   vaccineStatus.value = e.target.value;
   localStorage.setItem('had_antibody_test', vaccineStatus.value);
+  store.commit('setVaccineStatus', vaccineStatus.value);
   console.log(vaccineStatus.value);
 };
 
@@ -206,4 +221,21 @@ onBeforeRouteLeave((to, _, next) => {
 });
 </script>
 
-<style></style>
+<style>
+.slide-out-enter-active,
+.slide-out-leave-active {
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.slide-out-enter-from,
+.slide-out-leave-to {
+  transform: translatex(65%) scale(0.8) translateY(-45%);
+  opacity: 0;
+}
+
+.slide-out-enter-to,
+.slide-out-leave-from {
+  transform: translatex(0);
+  opacity: 0.8;
+}
+</style>
