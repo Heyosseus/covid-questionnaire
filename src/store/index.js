@@ -1,26 +1,32 @@
+import { ref } from 'vue';
 import { createStore } from 'vuex';
+import surveyModule from './modules/survey/index';
 
 const store = createStore({
   state() {
     return {
-      name: '',
-      surname: '',
-      email: '',
+      name: ref(localStorage.getItem('first_name') || ''),
+      surname: ref(localStorage.getItem('last_name') || ''),
+      email_input: ref(localStorage.getItem('email') || ''),
+      // survey
     };
   },
   mutations: {
     setName(state, name) {
       state.name = name;
-      localStorage.setItem('name', name);
+      localStorage.setItem('first_name', name);
     },
     setSurname(state, surname) {
       state.surname = surname;
-      localStorage.setItem('surname', surname);
+      localStorage.setItem('last_name', surname);
     },
-    setEmail(state, email) {
-      state.email = email;
-      localStorage.setItem('email', email);
+    setEmail(state, email_input) {
+      state.email_input = email_input;
+      localStorage.setItem('email', email_input);
     },
+  },
+  modules: {
+    survey: surveyModule,
   },
 });
 

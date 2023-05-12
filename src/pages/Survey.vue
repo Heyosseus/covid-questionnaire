@@ -129,7 +129,9 @@
     </main>
     <div class="flex items-center justify-center space-x-28">
       <router-link :to="{ name: 'personal' }">
-        <img src="@/assets/images/previous.png" alt="" />
+        <button @click="submit">
+          <img src="@/assets/images/previous.png" alt="" />
+        </button>
       </router-link>
       <router-link :to="{ name: 'vaccine' }">
         <img src="@/assets/images/next.png" alt="" />
@@ -140,16 +142,18 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, computed, toRefs } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
+import { mapGetters, mapState, useStore } from 'vuex';
 
-const covidStatus = ref(localStorage.getItem('had_covid') || null);
-const vaccineStatus = ref(
-  localStorage.getItem('had_antibody_test') || null
-);
+const store = useStore();
+// const covidStatus = ref(localStorage.getItem('had_covid') || '');
+// const vaccineStatus = ref(
+//   localStorage.getItem('had_antibody_test') || ''
+// );
 
-const testDate = ref(localStorage.getItem('test_date') || null);
-const number = ref(localStorage.getItem('number') || null);
+// const testDate = ref(localStorage.getItem('test_date') || '');
+// const number = ref(localStorage.getItem('number') || '');
 
 const showAnti = ref(false);
 const date = ref(false);
@@ -167,22 +171,35 @@ const showNum = () => {
   date.value = false;
 };
 
-const covidStatusHandler = (e) => {
-  covidStatus.value = e.target.value;
-  localStorage.setItem('had_covid', covidStatus.value);
-  console.log(covidStatus.value);
+
+
+ const { covidStatus, vaccineStatus, testDate, number } = toRefs(mapState('survey', ['had_covid', 'had_antibody_test', 'test_date', 'number']));
+
+
+
+const submit = () => {
+  store.commit('survey/setHadCovid', covidStatus.value);
+  store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
+  store.commit('survey/setTestDate', testDate.value);
+  store.commit('survey/setNumber', number.value);
 };
 
-const vaccineStatusHandler = (e) => {
-  vaccineStatus.value = e.target.value;
-  localStorage.setItem('had_antibody_test', vaccineStatus.value);
-  console.log(vaccineStatus.value);
-};
+// const covidStatusHandler = (e) => {
+//   covidStatus.value = e.target.value;
+//   localStorage.setItem('had_covid', covidStatus.value);
+//   console.log(covidStatus.value);
+// };
 
-const antibodiesHandler = () => {
-  localStorage.setItem('number', number.value);
-  localStorage.setItem('test_date', testDate.value);
-};
+// const vaccineStatusHandler = (e) => {
+//   vaccineStatus.value = e.target.value;
+//   localStorage.setItem('had_antibody_test', vaccineStatus.value);
+//   console.log(vaccineStatus.value);
+// };
+
+// const antibodiesHandler = () => {
+//   localStorage.setItem('number', number.value);
+//   localStorage.setItem('test_date', testDate.value);
+// };
 
 const isValid = () => {
   if (covidStatus.value === 'no' || covidStatus.value === 'Ihave') {
