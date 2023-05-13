@@ -1,0 +1,17 @@
+<script setup>
+import { useIsFormDirty, useIsFormValid } from 'vee-validate';
+import { computed } from 'vue';
+
+const isDirty = useIsFormDirty();
+const isValid = useIsFormValid();
+
+const isDisabled = computed(() => {
+  return !isDirty.value || !isValid.value;
+});
+</script>
+
+<template>
+  <button :disabled="isDisabled" class="fixed bottom-10 left-60 ">
+    <img src="@/assets/images/next.png" class="" />
+  </button>
+</template>
