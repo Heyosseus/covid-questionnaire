@@ -151,21 +151,21 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
+import CustomButton from '../components/CustomButton.vue';
 import { computed, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { mapState, useStore } from 'vuex';
 
 const store = useStore();
 
-// const covidStatus = ref(localStorage.getItem('had_covid') || null);
+const covidStatus = ref(localStorage.getItem('had_covid') || null);
 
-// const vaccineStatus = ref(
-//   localStorage.getItem('had_antibody_test') || null
-// );
-// >>>>>>> main
+const vaccineStatus = ref(
+  localStorage.getItem('had_antibody_test') || null
+);
 
-// const testDate = ref(localStorage.getItem('test_date') || '');
-// const number = ref(localStorage.getItem('number') || '');
+const testDate = ref(localStorage.getItem('test_date') || '');
+const number = ref(localStorage.getItem('number') || '');
 
 const showAnti = ref(false);
 const date = ref(false);
@@ -183,36 +183,26 @@ const showNum = () => {
   date.value = false;
 };
 
-
-
-
- const { covidStatus, vaccineStatus, testDate, number } = toRefs(mapState('survey', ['had_covid', 'had_antibody_test', 'test_date', 'number']));
-
-
-
-const submit = () => {
-  store.commit('survey/setHadCovid', covidStatus.value);
-  store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
-  store.commit('survey/setTestDate', testDate.value);
-  store.commit('survey/setNumber', number.value);
-};
-
+// const submit = () => {
+//   store.commit('survey/setHadCovid', covidStatus.value);
+//   store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
+//   store.commit('survey/setTestDate', testDate.value);
+//   store.commit('survey/setNumber', number.value);
+// };
 
 const covidStatusHandler = (e) => {
   covidStatus.value = e.target.value;
-  localStorage.setItem('had_covid', covidStatus.value);
-  store.commit('setCovidStatus', covidStatus.value);
+  // localStorage.setItem('had_covid', covidStatus.value);
+  store.commit('setHadCovid', covidStatus.value);
   console.log(covidStatus.value);
 };
 
 const vaccineStatusHandler = (e) => {
   vaccineStatus.value = e.target.value;
-  localStorage.setItem('had_antibody_test', vaccineStatus.value);
-  store.commit('setVaccineStatus', vaccineStatus.value);
+  // localStorage.setItem('had_antibody_test', vaccineStatus.value);
+  store.commit('setHadAntibodyTest', vaccineStatus.value);
   console.log(vaccineStatus.value);
 };
-
-
 
 const isValid = () => {
   if (covidStatus.value === 'no' || covidStatus.value === 'Ihave') {

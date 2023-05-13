@@ -160,7 +160,7 @@
         </div>
       </div>
       <div class="relative">
-        <img src="@/assets/images/doctor.png" alt="" class="mt-6"/>
+        <img src="@/assets/images/doctor.png" alt="" class="mt-6" />
         <transition name="slide-in" appear>
           <img
             src="@/assets/logos/vaccineLogo.png"
@@ -170,6 +170,7 @@
         </transition>
       </div>
     </main>
+    <button @click="submit">click</button>
     <div class="flex items-center justify-center space-x-28 mt-16">
       <router-link :to="{ name: 'survey' }">
         <img src="@/assets/images/previous.png" alt="" />
@@ -186,17 +187,14 @@
 import Header from '@/components/Header.vue';
 import { ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
+import { useStore } from 'vuex';
 
-const covidVaccine = ref(localStorage.getItem('had_vaccine') || null);
+const store = useStore();
 const showForYes = ref(false);
 const showForNo = ref(false);
 const showLink = ref(false);
 
-const vaccinatedlevel = ref(
-  localStorage.getItem('vaccination_stage') || null
-);
 
-const waitingFor = ref(localStorage.getItem('waiting_for') || null);
 
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
@@ -210,19 +208,21 @@ const showLinkHandler = () => {
   showLink.value = true;
 };
 
-const radioButtonHandler = (e) => {
-  covidVaccine.value = e.target.value;
-  localStorage.setItem('had_vaccine', covidVaccine.value);
-};
 
-const levelHandler = (e) => {
-  vaccinatedlevel.value = e.target.value;
-  localStorage.setItem('vaccination_stage', vaccinatedlevel.value);
-};
+const covidVaccine = ref(localStorage.getItem('had_vaccine') || null);
 
-const waitingForHandler = (e) => {
-  waitingFor.value = e.target.value;
-  localStorage.setItem('waiting_for', waitingFor.value);
+const vaccinatedlevel = ref(
+  localStorage.getItem('vaccination_stage') || null
+);
+
+const waitingFor = ref(localStorage.getItem('waiting_for') || null);
+
+const submit = () => {
+  store.commit('setVaccine', covidVaccine.value);
+
+  store.commit('setVaccinationStage', vaccinatedlevel.value);
+
+  store.commit('setWaitingFor', waitingFor.value);
 };
 
 const isValid = () => {

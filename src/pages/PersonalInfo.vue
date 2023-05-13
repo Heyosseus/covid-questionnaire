@@ -4,7 +4,7 @@
     <main class="flex justify-between">
       <div class="h-[512px] mt-20">
         <Form
-          @submit="submit"
+          @submit="onSubmit"
           class="flex flex-col w-[513px] tracking-wide"
         >
           <label for="name" class="font-bold">სახელი*</label>
@@ -24,10 +24,8 @@
           <label for="surname" class="font-bold mt-6">გვარი*</label>
           <Field
             type="text"
-
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="ჯუღაშვილი"
-  
             v-model="surname"
             name="surname"
             rules="required|min:3|max:255"
@@ -38,13 +36,6 @@
             name="surname"
             class="text-red-500 mt-1 ml-4"
           />
-
-
-          <ErrorMessage
-            name="surname"
-            class="text-red-500 mt-1 ml-4"
-          />
-
           <label for="email" class="font-bold mt-6">მეილი*</label>
           <Field
             type="email"
@@ -52,16 +43,13 @@
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="fbi@redberry.ge"
             id="email"
-
-          
             rules="required|redberryEmail"
             @blur="setLocale('ka')"
-
-
             v-model="email_input"
           />
 
           <ErrorMessage name="email" class="text-red-500 mt-1 ml-4" />
+          <CustomButton class="fixed bottom-20" type="submit"/>
         </Form>
         <div class="mt-24">
           <div class="h-[1px] w-64 bg-gray-500"></div>
@@ -86,16 +74,15 @@
     </main>
     <router-link
       :to="{ name: 'survey' }"
-      @click="saveDataToLocalStorage"
     >
       <img src="@/assets/images/next.png" class="mx-auto mt-24" />
     </router-link>
-
   </div>
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue';
+import CustomButton from '../components/CustomButton.vue';
 
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as rules from '@/config/rules.js';
@@ -114,24 +101,12 @@ const name = ref(localStorage.getItem('first_name') || '');
 const surname = ref(localStorage.getItem('last_name') || '');
 const email_input = ref(localStorage.getItem('email') || '');
 
-const submit = () => {
+const onSubmit = () => {
   store.commit('setName', name.value);
   store.commit('setSurname', surname.value);
   store.commit('setEmail', email_input.value);
   router.push({ name: 'survey' });
 };
-
-// const isValid = () => {
-//   return (
-//     nameErrorMessage.value === undefined &&
-//     name.value !== '' &&
-//     surnameErrorMessage.value === undefined &&
-//     surname.value !== '' &&
-//     emailErrorMessage.value === undefined &&
-//     email.value !== ''
-//   );
-// };
-
 
 </script>
 

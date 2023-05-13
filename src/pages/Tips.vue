@@ -180,6 +180,7 @@
           v-model="opnionAboutUs"
           @blur="opnionAboutUsHandler"
         />
+        <button @click="submit">click</button>
       </div>
       <button
         class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
@@ -200,6 +201,8 @@
 <script setup>
 import Header from '@/components/Header.vue';
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore();
 
 const nonFormalMeeting = ref(
   localStorage.getItem('non_formal_meeting') || null
@@ -214,30 +217,37 @@ const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || null
 );
 
-const meetingHandler = (e) => {
-  nonFormalMeeting.value = e.target.value;
-  localStorage.setItem('non_formal_meeting', nonFormalMeeting.value);
-};
+const submit = () => {
+  store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
+  store.commit('tips/setAttendance', attendance.value);
+  store.commit('tips/setMeetingsInLive', meetingsInLive.value);
+  store.commit('tips/setOpnionAboutUs', opnionAboutUs.value);
+}
 
-const attendanceHandler = (e) => {
-  attendance.value = e.target.value;
-  localStorage.setItem('attendance', attendance.value);
-};
+// const meetingHandler = (e) => {
+//   nonFormalMeeting.value = e.target.value;
+//   localStorage.setItem('non_formal_meeting', nonFormalMeeting.value);
+// };
 
-const meetingsInLiveHandler = (e) => {
-  meetingsInLive.value = e.target.value;
-  localStorage.setItem(
-    'what_about_meetings_in_live',
-    meetingsInLive.value
-  );
-};
-const opnionAboutUsHandler = (e) => {
-  opnionAboutUs.value = e.target.value;
-  localStorage.setItem(
-    'tell_us_your_opinion_about_us',
-    opnionAboutUs.value
-  );
-};
+// const attendanceHandler = (e) => {
+//   attendance.value = e.target.value;
+//   localStorage.setItem('attendance', attendance.value);
+// };
+
+// const meetingsInLiveHandler = (e) => {
+//   meetingsInLive.value = e.target.value;
+//   localStorage.setItem(
+//     'what_about_meetings_in_live',
+//     meetingsInLive.value
+//   );
+// };
+// const opnionAboutUsHandler = (e) => {
+//   opnionAboutUs.value = e.target.value;
+//   localStorage.setItem(
+//     'tell_us_your_opinion_about_us',
+//     opnionAboutUs.value
+//   );
+// };
 </script>
 
 <style>
