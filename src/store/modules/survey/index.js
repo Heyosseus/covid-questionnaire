@@ -1,4 +1,3 @@
-
 import { ref } from 'vue';
 
 const surveyModule = {
@@ -7,7 +6,7 @@ const surveyModule = {
     return {
       had_covid: ref(localStorage.getItem('had_covid') || ''),
       had_antobody_test: ref(
-        localStorage.getItem('had_antobody_test') || ''
+        localStorage.getItem('had_antibody_test') || ''
       ),
       number: ref(localStorage.getItem('number') || ''),
       test_date: ref(localStorage.getItem('test_date') || ''),
@@ -20,7 +19,7 @@ const surveyModule = {
     },
     setHadAntibodyTest(state, had_antobody_test) {
       state.had_antobody_test = had_antobody_test;
-      localStorage.setItem('had_antobody_test', had_antobody_test);
+      localStorage.setItem('had_antibody_test', had_antobody_test);
     },
     setNumber(state, number) {
       state.number = number;
@@ -29,9 +28,8 @@ const surveyModule = {
     setTestDate(state, test_date) {
       state.test_date = test_date;
       localStorage.setItem('test_date', test_date);
+    },
+  },
+};
 
-
-    }}};
-
-    
 export default surveyModule;

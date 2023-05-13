@@ -1,6 +1,8 @@
 import { ref } from 'vue';
 import { createStore } from 'vuex';
 import surveyModule from './modules/survey/index';
+import vaccineModule from './modules/vaccine';
+import tipsModule from './modules/tips';
 
 const store = createStore({
   state() {
@@ -8,11 +10,12 @@ const store = createStore({
       name: ref(localStorage.getItem('first_name') || ''),
       surname: ref(localStorage.getItem('last_name') || ''),
       email_input: ref(localStorage.getItem('email') || ''),
-    }},
-     mutations: {
+    };
+  },
+  mutations: {
     setName(state, name) {
-      state.name = name;
       localStorage.setItem('first_name', name);
+      state.name = name;
     },
     setSurname(state, surname) {
       state.surname = surname;
@@ -25,10 +28,9 @@ const store = createStore({
   },
   modules: {
     survey: surveyModule,
+    vaccine: vaccineModule,
+    tips: tipsModule,
   },
-    }
-
-
-);
+});
 
 export default store;
