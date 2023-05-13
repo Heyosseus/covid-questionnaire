@@ -70,12 +70,21 @@
           </div>
         </div>
       </form>
-      <img
-        src="@/assets/images/bicycle.png"
-        alt=""
-        width="650"
-        class="mt-14"
-      />
+      <div class="relative">
+        <img
+          src="@/assets/images/bicycle.png"
+          alt=""
+          width="650"
+          class="mt-14"
+        />
+        <transition name="slide-out-in" appear>
+          <img
+            src="@/assets/logos/tipsLogo.png"
+            alt=""
+            class="absolute top-24 left-20 opacity-70"
+          />
+        </transition>
+      </div>
     </main>
     <div class="">
       <form action="" @click="attendanceHandler">
@@ -231,4 +240,21 @@ const opnionAboutUsHandler = (e) => {
 };
 </script>
 
-<style></style>
+<style>
+.slide-out-in-enter-active,
+.slide-out-in-leave-active {
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.slide-out-in-enter-from,
+.slide-out-in-leave-to {
+  transform: translatex(5%) scale(1.2) translateY(-25%);
+  opacity: 0;
+}
+
+.slide-out-in-enter-to,
+.slide-out-in-leave-from {
+  transform: translatex(0);
+  opacity: 0.7;
+}
+</style>

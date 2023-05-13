@@ -1,3 +1,4 @@
+
 import { ref } from 'vue';
 
 const surveyModule = {
@@ -28,8 +29,9 @@ const surveyModule = {
     setTestDate(state, test_date) {
       state.test_date = test_date;
       localStorage.setItem('test_date', test_date);
-    },
-  },
-};
 
+
+    }}};
+
+    
 export default surveyModule;

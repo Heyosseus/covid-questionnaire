@@ -125,7 +125,16 @@
           </form>
         </div>
       </div>
-      <img src="@/assets/images/gumBoy.png" alt="" width="900" />
+      <div class="relative">
+        <img src="@/assets/images/gumBoy.png" alt="" width="900" />
+        <transition name="slide-out" appear key="survey">
+          <img
+            src="@/assets/logos/surveyLogo.png"
+            alt=""
+            class="absolute bottom-96 left-16 opacity-80"
+          />
+        </transition>
+      </div>
     </main>
     <div class="flex items-center justify-center space-x-28">
       <router-link :to="{ name: 'personal' }">
@@ -142,15 +151,18 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import { ref, watch, computed, toRefs } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
-import { mapGetters, mapState, useStore } from 'vuex';
+import { mapState, useStore } from 'vuex';
 
 const store = useStore();
-// const covidStatus = ref(localStorage.getItem('had_covid') || '');
+
+// const covidStatus = ref(localStorage.getItem('had_covid') || null);
+
 // const vaccineStatus = ref(
-//   localStorage.getItem('had_antibody_test') || ''
+//   localStorage.getItem('had_antibody_test') || null
 // );
+// >>>>>>> main
 
 // const testDate = ref(localStorage.getItem('test_date') || '');
 // const number = ref(localStorage.getItem('number') || '');
@@ -173,6 +185,7 @@ const showNum = () => {
 
 
 
+
  const { covidStatus, vaccineStatus, testDate, number } = toRefs(mapState('survey', ['had_covid', 'had_antibody_test', 'test_date', 'number']));
 
 
@@ -184,22 +197,22 @@ const submit = () => {
   store.commit('survey/setNumber', number.value);
 };
 
-// const covidStatusHandler = (e) => {
-//   covidStatus.value = e.target.value;
-//   localStorage.setItem('had_covid', covidStatus.value);
-//   console.log(covidStatus.value);
-// };
 
-// const vaccineStatusHandler = (e) => {
-//   vaccineStatus.value = e.target.value;
-//   localStorage.setItem('had_antibody_test', vaccineStatus.value);
-//   console.log(vaccineStatus.value);
-// };
+const covidStatusHandler = (e) => {
+  covidStatus.value = e.target.value;
+  localStorage.setItem('had_covid', covidStatus.value);
+  store.commit('setCovidStatus', covidStatus.value);
+  console.log(covidStatus.value);
+};
 
-// const antibodiesHandler = () => {
-//   localStorage.setItem('number', number.value);
-//   localStorage.setItem('test_date', testDate.value);
-// };
+const vaccineStatusHandler = (e) => {
+  vaccineStatus.value = e.target.value;
+  localStorage.setItem('had_antibody_test', vaccineStatus.value);
+  store.commit('setVaccineStatus', vaccineStatus.value);
+  console.log(vaccineStatus.value);
+};
+
+
 
 const isValid = () => {
   if (covidStatus.value === 'no' || covidStatus.value === 'Ihave') {
@@ -223,4 +236,21 @@ onBeforeRouteLeave((to, _, next) => {
 });
 </script>
 
-<style></style>
+<style>
+.slide-out-enter-active,
+.slide-out-leave-active {
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.slide-out-enter-from,
+.slide-out-leave-to {
+  transform: translatex(65%) scale(0.8) translateY(-45%);
+  opacity: 0;
+}
+
+.slide-out-enter-to,
+.slide-out-leave-from {
+  transform: translatex(0);
+  opacity: 0.8;
+}
+</style>

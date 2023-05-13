@@ -8,10 +8,8 @@ const store = createStore({
       name: ref(localStorage.getItem('first_name') || ''),
       surname: ref(localStorage.getItem('last_name') || ''),
       email_input: ref(localStorage.getItem('email') || ''),
-      // survey
-    };
-  },
-  mutations: {
+    }},
+     mutations: {
     setName(state, name) {
       state.name = name;
       localStorage.setItem('first_name', name);
@@ -28,6 +26,9 @@ const store = createStore({
   modules: {
     survey: surveyModule,
   },
-});
+    }
+
+
+);
 
 export default store;

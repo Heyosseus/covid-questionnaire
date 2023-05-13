@@ -159,8 +159,16 @@
           >
         </div>
       </div>
-
-      <img src="@/assets/images/doctor.png" alt="" />
+      <div class="relative">
+        <img src="@/assets/images/doctor.png" alt="" class="mt-6"/>
+        <transition name="slide-in" appear>
+          <img
+            src="@/assets/logos/vaccineLogo.png"
+            alt=""
+            class="absolute top-0 mb-10 left-8 opacity-60"
+          />
+        </transition>
+      </div>
     </main>
     <div class="flex items-center justify-center space-x-28 mt-16">
       <router-link :to="{ name: 'survey' }">
@@ -241,4 +249,21 @@ onBeforeRouteLeave((to, _, next) => {
 });
 </script>
 
-<style></style>
+<style>
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: transform 0.8s ease, opacity 0.6s ease;
+}
+
+.slide-in-enter-from,
+.slide-in-leave-to {
+  transform: translatex(-40%) scale(0.6) translateY(55%);
+  opacity: 0;
+}
+
+.slide-in-enter-to,
+.slide-in-leave-from {
+  transform: translatex(0);
+  opacity: 0.6;
+}
+</style>

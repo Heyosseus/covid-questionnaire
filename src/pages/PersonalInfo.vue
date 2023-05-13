@@ -10,10 +10,10 @@
           <label for="name" class="font-bold">სახელი*</label>
           <Field
             type="text"
+            name="name"
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="იოსებ"
             id="name"
-            name="name"
             v-model="name"
             rules="required|alpha|min:3|max:255"
             @focus="setLocale('ka')"
@@ -24,8 +24,10 @@
           <label for="surname" class="font-bold mt-6">გვარი*</label>
           <Field
             type="text"
+
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="ჯუღაშვილი"
+  
             v-model="surname"
             name="surname"
             rules="required|min:3|max:255"
@@ -37,15 +39,25 @@
             class="text-red-500 mt-1 ml-4"
           />
 
+
+          <ErrorMessage
+            name="surname"
+            class="text-red-500 mt-1 ml-4"
+          />
+
           <label for="email" class="font-bold mt-6">მეილი*</label>
           <Field
             type="email"
+            name="email"
             class="p-3 rounded border border-gray-300 mt-1 outline-0"
             placeholder="fbi@redberry.ge"
             id="email"
-            name="email"
+
+          
             rules="required|redberryEmail"
             @blur="setLocale('ka')"
+
+
             v-model="email_input"
           />
 
@@ -58,26 +70,33 @@
           </p>
         </div>
       </div>
-      <img
-        src="@/assets/images/couple.png"
-        alt=""
-        class="w-[800px]"
-      />
+      <div class="relative">
+        <img
+          src="@/assets/images/couple.png"
+          class="w-[800px] z-20"
+        />
+        <transition name="slide" appear key="personal">
+          <img
+            src="@/assets/logos/personalLogo.png"
+            alt=""
+            class="absolute top-48 left-20 opacity-80 z-10"
+          />
+        </transition>
+      </div>
     </main>
-    <!-- <router-link :to="{ name: 'survey' }"> -->
-    <button @click="submit">
-      <img
-        src="@/assets/images/next.png"
-        alt=""
-        class="mx-auto mt-24"
-      />
-    </button>
-    <!-- </router-link> -->
+    <router-link
+      :to="{ name: 'survey' }"
+      @click="saveDataToLocalStorage"
+    >
+      <img src="@/assets/images/next.png" class="mx-auto mt-24" />
+    </router-link>
+
   </div>
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue';
+
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as rules from '@/config/rules.js';
 import * as messages from '@/config/messages.js';
@@ -113,16 +132,24 @@ const submit = () => {
 //   );
 // };
 
-// onBeforeRouteLeave((to, _, next) => {
-//   if (to.path === '/survey' && !isValid()) {
-//     next(false);
-//   } else {
-//     localStorage.setItem('first_name', name.value);
-//     localStorage.setItem('last_name', surname.value);
-//     localStorage.setItem('email', email.value);
-//     next();
-//   }
-// });
+
 </script>
 
-<style></style>
+<style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translatex(-40%) scale(0.6) translateY(45%);
+  opacity: 0;
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  transform: translatex(0);
+  opacity: 0.8;
+}
+</style>
