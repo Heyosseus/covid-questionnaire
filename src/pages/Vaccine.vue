@@ -23,7 +23,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForYes"
                   v-model="covidVaccine"
-                  :value="true"
+                  value="true"
                 />
                 კი
               </label>
@@ -35,7 +35,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForNo"
                   v-model="covidVaccine"
-                  :value="false"
+                  value="false"
                 />
                 არა
               </label>
@@ -85,7 +85,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLinkHandler"
                   v-model="vaccinatedlevel"
-                  value="first_and_not_registered"
+                  value="first_dosage_and_not_registered_yet"
                 />
                 პირველი დოზა და არ დავრეგისტრირებულვარ მეორეზე
               </label>
@@ -125,7 +125,7 @@
                     name="vaccine-status"
                     class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                     v-model="waitingFor"
-                    value="registered_and_waiting_for_date"
+                    value="registered_and_waiting"
                   />
                   დარეგისტრირებული ვარ და ველოდები რიცხვს
                 </label>
@@ -146,7 +146,7 @@
                     class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                     @click="showLinkHandlerForNo"
                     v-model="waitingFor"
-                    value="had_covid_and_planning"
+                    value="had_covid_and_planning_to_be_vaccinated"
                   />
                   გადატანილი მაქვს და ვგეგმავ აცრას
                 </label>
@@ -229,12 +229,12 @@ const showLinkHandlerForNo = () => {
   showLink.value = false;
 };
 
-// const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
 
-const storedVaccineStatus = localStorage.getItem('had_vaccine');
-const covidVaccine = storedVaccineStatus
-  ? JSON.parse(storedVaccineStatus)
-  : null;
+// const storedVaccineStatus = localStorage.getItem('had_vaccine');
+// const covidVaccine = storedVaccineStatus
+//   ? JSON.parse(storedVaccineStatus)
+//   : '';
 
 const vaccinatedlevel = ref(
   localStorage.getItem('vaccination_stage') || null
@@ -248,14 +248,11 @@ const schema = {
   },
 };
 
-const waitingFor = ref(localStorage.getItem('waiting_for') || null);
+const waitingFor = ref(localStorage.getItem('i_am_waiting') || null);
 
 const onSubmit = () => {
-  let hadVaccine = null;
-  if (covidVaccine === true || covidVaccine === false) {
-    hadVaccine = covidVaccine;
-  }
-  store.commit('vaccine/setVaccine', hadVaccine);
+
+  store.commit('vaccine/setVaccine', covidVaccine.value);
   store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
   store.commit('vaccine/setWaitingFor', waitingFor.value);
   router.push({ name: 'tips' });

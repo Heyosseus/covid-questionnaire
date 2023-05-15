@@ -56,7 +56,7 @@
                     name="covid"
                     class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                     v-model="nonFormalMeeting"
-                    value="once_in_two_weeks"
+                    value="once_in_a_two_weeks"
                   />
                   ორ კვირაში ერთხელ
                 </label>
@@ -66,7 +66,7 @@
                     name="covid"
                     class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                     v-model="nonFormalMeeting"
-                    value="once_a_month"
+                    value="once_in_a_month"
                   />
                   თვეში ერთხელ
                 </label>
@@ -234,9 +234,7 @@ const meetingsInLive = ref(
 const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || ''
 );
-
-
-
+const antibodies = JSON.parse(localStorage.getItem('antibodies'));
 const onSubmit = () => {
   store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
   store.commit('tips/setAttendance', attendance.value);
@@ -247,12 +245,36 @@ const onSubmit = () => {
     last_name: localStorage.getItem('last_name'),
     email: localStorage.getItem('email'),
     had_covid: localStorage.getItem('had_covid'),
+    had_antibody_test:
+      localStorage.getItem('had_covid') === 'yes'
+        ? localStorage.getItem('had_antibody_test')
+        : undefined,
     had_vaccine: JSON.parse(localStorage.getItem('had_vaccine')),
-    had_antibody_test: localStorage.getItem('had_antibody_test'),
-    covid_sickness_date: localStorage.getItem('covid_sickness_date'),
-    antibodies: JSON.parse(localStorage.getItem('antibodies')),
-    vaccination_stage: localStorage.getItem('vaccination_stage'),
+    covid_sickness_date:
+      localStorage.getItem('had_antibody_test') === false
+        ? localStorage.getItem('covid_sickness_date')
+        : undefined,
+    antibodies: {
+      test_date:
+        antibodies && antibodies.test_date
+          ? antibodies.test_date
+          : undefined,
+      number:
+        antibodies && antibodies.number
+          ? antibodies.number
+          : undefined,
+    },
+    vaccination_stage:
+      localStorage.getItem('had_vaccine') === 'true'
+        ? localStorage.getItem('vaccination_stage')
+        : undefined,
+    i_am_waiting:
+      localStorage.getItem('had_vaccine') === 'false'
+        ? localStorage.getItem('i_am_waiting')
+        : undefined,
+
     non_formal_meetings: localStorage.getItem('non_formal_meeting'),
+
     number_of_days_from_office: localStorage.getItem(
       'number_of_days_from_office'
     ),
@@ -263,6 +285,11 @@ const onSubmit = () => {
       'tell_us_your_opinion_about_us'
     ),
   };
+  Object.keys(data).forEach((key) => {
+    if (data[key] === undefined) {
+      delete data[key];
+    }
+  });
 
   axios
     .post('https://covid19.devtest.ge/api/create', data)
@@ -277,7 +304,6 @@ const onSubmit = () => {
       if (error.response && error.response.status === 422) {
         console.log('Unprocessable Entity Error');
         console.log(error.response.data); // Log the error response data
-        console.log(had_vaccine);
       } else {
         console.log('Other Error');
         console.log(error);

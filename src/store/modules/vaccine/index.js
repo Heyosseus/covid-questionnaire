@@ -8,16 +8,13 @@ const vaccineModule = {
       vaccination_stage: ref(
         localStorage.getItem('vaccination_stage') || ''
       ),
-      waiting_for: ref(localStorage.getItem('waiting_for') || ''),
+      waiting_for: ref(localStorage.getItem('i_am_waiting') || ''),
     };
   },
   mutations: {
     setVaccine(state, had_vaccine) {
       state.had_vaccine = had_vaccine;
-      localStorage.setItem(
-        'had_vaccine',
-        JSON.stringify(had_vaccine)
-      );
+      localStorage.setItem('had_vaccine', had_vaccine);
     },
     setVaccinationStage(state, vaccination_stage) {
       state.vaccination_stage = vaccination_stage;
@@ -25,7 +22,7 @@ const vaccineModule = {
     },
     setWaitingFor(state, waiting_for) {
       state.waiting_for = waiting_for;
-      localStorage.setItem('waiting_for', waiting_for);
+      localStorage.setItem('i_am_waiting', waiting_for);
     },
   },
 };
