@@ -12,6 +12,6 @@ const isDisabled = computed(() => {
 
 <template>
   <button :disabled="isDisabled">
-    <img src="@/assets/images/next.png" class="" />
+    დასრულება
   </button>
 </template>
