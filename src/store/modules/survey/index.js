@@ -28,10 +28,7 @@ const surveyModule = {
     },
     setAntibodies(state, antibodies) {
       state.antibodies = antibodies;
-      localStorage.setItem(
-        'antibodies',
-        antibodies
-      );
+      localStorage.setItem('antibodies', JSON.stringify(antibodies));
     },
 
     setCovidSicknessDate(state, covid_sickness_date) {

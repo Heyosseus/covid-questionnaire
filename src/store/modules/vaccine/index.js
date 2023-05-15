@@ -14,7 +14,10 @@ const vaccineModule = {
   mutations: {
     setVaccine(state, had_vaccine) {
       state.had_vaccine = had_vaccine;
-      localStorage.setItem('had_vaccine', had_vaccine);
+      localStorage.setItem(
+        'had_vaccine',
+        JSON.stringify(had_vaccine)
+      );
     },
     setVaccinationStage(state, vaccination_stage) {
       state.vaccination_stage = vaccination_stage;
