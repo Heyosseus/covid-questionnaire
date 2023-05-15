@@ -10,6 +10,7 @@
     "@vee-validate/i18n": "^4.9.3",
     "@vee-validate/rules": "^4.9.3",
     "animate.css": "^4.1.1",
+    "axios": "^1.4.0",
     "vee-validate": "^4.5.8",
     "vue": "^3.2.37",
     "vue-router": "^4.1.6",

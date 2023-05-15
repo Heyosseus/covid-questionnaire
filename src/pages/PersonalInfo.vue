@@ -1,12 +1,10 @@
 <template>
   <div class="py-24 px-44">
     <Header :count="'1/4'" />
-    <main class="flex justify-between">
-      <div class="h-[512px] mt-20">
-        <Form
-          @submit="onSubmit"
-          class="flex flex-col w-[513px] tracking-wide"
-        >
+
+    <Form @submit="onSubmit" class="tracking-wide">
+      <main class="flex justify-between">
+        <div class="flex flex-col w-[512px] mt-20">
           <label for="name" class="font-bold">სახელი*</label>
           <Field
             type="text"
@@ -49,34 +47,33 @@
           />
 
           <ErrorMessage name="email" class="text-red-500 mt-1 ml-4" />
-          <CustomButton class="fixed bottom-20" type="submit"/>
-        </Form>
-        <div class="mt-24">
-          <div class="h-[1px] w-64 bg-gray-500"></div>
-          <p class="text-gray-500 mt-4">
-            *-ით მონიშნული ველების შევსება <br />სავალდებულოა
-          </p>
+
+          <div class="mt-24">
+            <div class="h-[1px] w-64 bg-gray-500"></div>
+            <p class="text-gray-500 mt-4">
+              *-ით მონიშნული ველების შევსება <br />სავალდებულოა
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="relative">
-        <img
-          src="@/assets/images/couple.png"
-          class="w-[800px] z-20"
-        />
-        <transition name="slide" appear key="personal">
+
+        <div class="relative">
           <img
-            src="@/assets/logos/personalLogo.png"
-            alt=""
-            class="absolute top-48 left-20 opacity-80 z-10"
+            src="@/assets/images/couple.png"
+            class="w-[800px] z-20"
           />
-        </transition>
+          <transition name="slide" appear key="personal">
+            <img
+              src="@/assets/logos/personalLogo.png"
+              alt=""
+              class="absolute top-48 left-20 opacity-80 z-10"
+            />
+          </transition>
+        </div>
+      </main>
+      <div class="flex justify-center items-center">
+        <CustomButton type="submit">click</CustomButton>
       </div>
-    </main>
-    <router-link
-      :to="{ name: 'survey' }"
-    >
-      <img src="@/assets/images/next.png" class="mx-auto mt-24" />
-    </router-link>
+    </Form>
   </div>
 </template>
 
@@ -107,7 +104,6 @@ const onSubmit = () => {
   store.commit('setEmail', email_input.value);
   router.push({ name: 'survey' });
 };
-
 </script>
 
 <style>

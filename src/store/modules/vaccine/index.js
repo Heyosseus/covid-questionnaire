@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 const vaccineModule = {
-  nammspaced: true,
+  namespaced: true,
   state() {
     return {
       had_vaccine: ref(localStorage.getItem('had_vaccine') || ''),

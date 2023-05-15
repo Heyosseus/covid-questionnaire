@@ -1,24 +1,25 @@
 <template>
   <div class="py-24 px-44">
     <Header :count="'2/4'" />
-    <main class="flex justify-between">
-      <div class="flex-col">
-        <form
-          class="mt-16 space-y-10 tracking-wide"
-          @click="covidStatusHandler"
-        >
+
+    <Form
+      :validation-schema="schema"
+      @submit="onSubmit"
+      class="mt-8 tracking-wide"
+    >
+      <main class="flex justify-between">
+        <div class="flex-col">
           <div>
-            <label for="" class="font-bold text-lg"
+            <label class="font-bold text-lg"
               >გაქვს გადატანილი Covid-19?*</label
             >
-
             <div
               class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36"
             >
               <label for="status-yes">
-                <input
+                <Field
                   type="radio"
-                  name="covid-status"
+                  name="status"
                   id="status-yes"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showAntiTest"
@@ -28,9 +29,9 @@
                 კი
               </label>
               <label for="status-no">
-                <input
+                <Field
                   type="radio"
-                  name="covid-status"
+                  name="status"
                   id="status-no"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
@@ -40,9 +41,9 @@
                 არა
               </label>
               <label for="status-Ihave">
-                <input
+                <Field
                   type="radio"
-                  name="covid-status"
+                  name="status"
                   id="status-Ihave"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
@@ -52,12 +53,16 @@
                 ახლა მაქვს
               </label>
             </div>
+            <ErrorMessage
+              name="status"
+              class="text-red-500 mt-1 ml-4"
+            />
           </div>
           <!--  -->
-        </form>
-        <div v-if="showAnti" class="mt-10">
-          <form action="" @click="vaccineStatusHandler">
-            <label for="" class="font-bold text-lg mt-6"
+
+          <div v-if="showAnti" class="mt-10">
+            <!-- <Form> -->
+            <label class="font-bold text-lg mt-6"
               >ანტისხეულების ტესტი გაკეთებული გაქვს?*</label
             >
 
@@ -65,7 +70,7 @@
               class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36"
             >
               <label for="vaccine-status-yes">
-                <input
+                <Field
                   type="radio"
                   name="vaccine-status"
                   id="vaccine-status-yes"
@@ -77,7 +82,7 @@
                 კი
               </label>
               <label for="vaccine-status-no">
-                <input
+                <Field
                   type="radio"
                   name="vaccine-status"
                   id="vaccine-status-no"
@@ -89,87 +94,113 @@
                 არა
               </label>
             </div>
-          </form>
-        </div>
-        <!--  -->
-        <div v-if="date" class="flex flex-col mt-4">
-          <!-- <form action="" class="flex-col"> -->
-          <label for="" class="font-bold text-lg mt-6"
-            >მიუთითე მიახლოებითი პერიოდი (დღე/თვე/წელი) <br />
-            როდის გქონდა Covid-19*</label
-          >
-          <input type="date" class="w-96 mt-6" />
-          <!-- </form> -->
-        </div>
+            <!-- </Form> -->
+          </div>
 
-        <div v-if="num" class="flex flex-col mt-10">
-          <form action="" @click="antibodiesHandler">
+          <div v-if="date" class="flex flex-col mt-4">
+            <Form class="flex flex-col">
+              <label class="font-bold text-lg mt-6"
+                >მიუთითე მიახლოებითი პერიოდი (დღე/თვე/წელი) <br />
+                როდის გქონდა Covid-19*</label
+              >
+              <Field
+                type="text"
+                class="w-96 mt-6"
+                placeholder="დდ/თთ/წწ"
+                rules="required"
+                @focus="setLocale('ka')"
+                @blur="clickHandler"
+                name="sickness"
+                v-model="sicknessDate"
+              />
+              <ErrorMessage
+                name="sickness"
+                class="text-red-500 mt-2 ml-4"
+              />
+              <Field class="hidden" name="sickness" />
+            </Form>
+          </div>
+
+          <div v-if="num" class="flex flex-col mt-10">
             <label for="" class="font-bold text-lg"
               >თუ გახსოვს, გთხოვ მიუთითე ტესტის მიახლოებითი <br />
               რიცხვი და ანტისხეულების რაოდენობა*</label
             >
             <br />
-            <input
-              type="date"
+            <Field
+              type="text"
               class="w-96 mt-6"
               placeholder="რიცხვი"
               v-model="number"
+              name="testNum"
             />
+
             <br />
-            <input
-              type="number"
+            <Field
+              type="date"
               class="w-96 mt-6"
               placeholder="ანტისხეულების რაოდენობა"
               v-model="testDate"
+              name="test"
             />
-          </form>
+          </div>
         </div>
+        <div class="relative">
+          <img src="@/assets/images/gumBoy.png" alt="" width="900" />
+          <transition name="slide-out" appear key="survey">
+            <img
+              src="@/assets/logos/surveyLogo.png"
+              alt=""
+              class="absolute bottom-96 left-16 opacity-80 z-30"
+            />
+          </transition>
+        </div>
+      </main>
+      <div class="flex justify-center items-center space-x-20">
+        <div class="">
+          <router-link :to="{ name: 'personal' }">
+            <img src="@/assets/images/previous.png" alt="" />
+          </router-link>
+        </div>
+        <CustomButton type="submit">click</CustomButton>
       </div>
-      <div class="relative">
-        <img src="@/assets/images/gumBoy.png" alt="" width="900" />
-        <transition name="slide-out" appear key="survey">
-          <img
-            src="@/assets/logos/surveyLogo.png"
-            alt=""
-            class="absolute bottom-96 left-16 opacity-80"
-          />
-        </transition>
-      </div>
-    </main>
-    <div class="flex items-center justify-center space-x-28">
-      <router-link :to="{ name: 'personal' }">
-        <button @click="submit">
-          <img src="@/assets/images/previous.png" alt="" />
-        </button>
-      </router-link>
-      <router-link :to="{ name: 'vaccine' }">
-        <img src="@/assets/images/next.png" alt="" />
-      </router-link>
-    </div>
+    </Form>
   </div>
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue';
 import CustomButton from '../components/CustomButton.vue';
-import { computed, ref, watch } from 'vue';
-import { onBeforeRouteLeave } from 'vue-router';
-import { mapState, useStore } from 'vuex';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { Field, Form, ErrorMessage } from 'vee-validate';
+import { setLocale } from '@vee-validate/i18n';
+import { useRouter } from 'vue-router';
+import * as rules from '@/config/rules.js';
+import * as messages from '@/config/messages.js';
 
 const store = useStore();
+const router = useRouter();
 
-const covidStatus = ref(localStorage.getItem('had_covid') || null);
+const covidStatus = ref(localStorage.getItem('had_covid') || '');
 
 const vaccineStatus = ref(
-  localStorage.getItem('had_antibody_test') || null
+  localStorage.getItem('had_antibody_test') || ''
+);
+const antibodies = ref(
+  JSON.parse(localStorage.getItem('antibodies'))
 );
 
-const testDate = ref(localStorage.getItem('test_date') || '');
-const number = ref(localStorage.getItem('number') || '');
+const testDate = antibodies.test_date;
+const number = antibodies.number;
 
+const sicknessDate = ref(
+  localStorage.getItem('covid_sickness_date') || ''
+);
 const showAnti = ref(false);
 const date = ref(false);
 const num = ref(false);
+
 const showAntiTest = () => {
   showAnti.value = true;
 };
@@ -183,47 +214,27 @@ const showNum = () => {
   date.value = false;
 };
 
-// const submit = () => {
-//   store.commit('survey/setHadCovid', covidStatus.value);
-//   store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
-//   store.commit('survey/setTestDate', testDate.value);
-//   store.commit('survey/setNumber', number.value);
-// };
+const schema = {
+  status: (value) => {
+    if (value) {
+      return true;
+    }
 
-const covidStatusHandler = (e) => {
-  covidStatus.value = e.target.value;
-  // localStorage.setItem('had_covid', covidStatus.value);
-  store.commit('setHadCovid', covidStatus.value);
-  console.log(covidStatus.value);
+    return 'ეს ველი სავალდებულოა';
+  },
 };
 
-const vaccineStatusHandler = (e) => {
-  vaccineStatus.value = e.target.value;
-  // localStorage.setItem('had_antibody_test', vaccineStatus.value);
-  store.commit('setHadAntibodyTest', vaccineStatus.value);
-  console.log(vaccineStatus.value);
+const onSubmit = () => {
+  store.commit('survey/setHadCovid', covidStatus.value);
+  store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
+  const antibodies = {
+    test_date: testDate,
+    number: number,
+  };
+  console.log(antibodies);
+  localStorage.setItem('antibodies', JSON.stringify(antibodies));
+  router.push({ name: 'vaccine' });
 };
-
-const isValid = () => {
-  if (covidStatus.value === 'no' || covidStatus.value === 'Ihave') {
-    return true;
-  } else if (
-    covidStatus.value === 'yes' &&
-    vaccineStatus.value === 'true'
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-onBeforeRouteLeave((to, _, next) => {
-  if (to.path === '/vaccine' && !isValid()) {
-    next(false);
-  } else {
-    next();
-  }
-});
 </script>
 
 <style>

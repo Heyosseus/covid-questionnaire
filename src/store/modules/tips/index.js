@@ -7,7 +7,9 @@ const tipsModule = {
       non_formal_meeting: ref(
         localStorage.getItem('non_formal_meeting') || ''
       ),
-      attendance: ref(localStorage.getItem('attendance') || ''),
+      attendance: ref(
+        localStorage.getItem('number_of_days_from_office') || ''
+      ),
       meetingsInLive: ref(
         localStorage.getItem('what_about_meetings_in_live') || ''
       ),
@@ -23,7 +25,7 @@ const tipsModule = {
     },
     setAttendance(state, attendance) {
       state.attendance = attendance;
-      localStorage.setItem('attendance', attendance);
+      localStorage.setItem('number_of_days_from_office', attendance);
     },
     setMeetingsInLive(state, meetingsInLive) {
       state.meetingsInLive = meetingsInLive;

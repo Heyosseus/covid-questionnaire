@@ -236,6 +236,17 @@ const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || null
 );
 
+const allStates = computed(() => {
+  const states = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    const value = JSON.parse(localStorage.getItem(key));
+    states[key] = value;
+  }
+  console.log(states);
+
+  return states;
+});
 
 const click = () => {
   store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
@@ -254,7 +265,7 @@ const onSubmit = () => {
     had_antibody_test: localStorage.getItem('had_antibody_test'),
     antibodies: JSON.parse(localStorage.getItem('antibodies')),
     vaccination_stage: localStorage.getItem('vaccination_stage'),
-    non_formal_meetings: localStorage.getItem('non_formal_meeting'),
+    non_formal_meeting: localStorage.getItem('non_formal_meeting'),
     number_of_days_from_office: localStorage.getItem(
       'number_of_days_from_office'
     ),
@@ -276,13 +287,9 @@ const onSubmit = () => {
       }
     })
     .catch((error) => {
-    if (error.response && error.response.status === 422) {
-      console.log('Unprocessable Entity Error');
-      console.log(error.response.data); // Log the error response data
-    } else {
-      console.log('Other Error');
       console.log(error);
-    }})
+      console.log(data)
+    });
 };
 </script>
 
