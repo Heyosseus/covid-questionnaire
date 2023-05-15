@@ -1,313 +1,105 @@
-<template>
-  <div class="py-24 px-44">
-    <Header :count="'4/4'" />
+  <template>
+    <div class="py-24 px-44">
+      <Header :count="'3/4'" />
 
-    <Form
-      action=""
-      class="mt-16 space-y-10 tracking-wide"
-      @submit="onSubmit"
-    >
-      <main class="flex justify-between">
-        <div class="flex justify-between">
-          <div>
-            <p class="w-[500px] tracking-wide font-xl mt-14">
-              რედბერის მთავარი ღირებულება ჩვენი გუნდის თითოეული
-              წევრია. გარემო, რომელსაც ჩვენი თანამშრომლები ქმნით,
-              ბევრისთვის არის და ყოფილა წლების განმავლობაში
-              მიზნებისთვის ერთად ბრძოლის მიზეზი, ბევრისთვის კი —
-              ჩვენთან გადმოსვლის. <br />
-              <br />
-              პანდემიის პერიოდში ერთმანეთსაც იშვიათად ვნახულობთ
-              პირისპირ და ყოველდღიური კომუნიკაციაც გაიშვიათდა.
-            </p>
-            <div>
-              <label for="" class="font-bold text-lg w-80"
-                >რა სიხშირით შეიძლება გვქონდეს საერთო <br />
-                არაფორმალური ონლაინ შეხვედრები, სადაც ყველა
-                <br />სურვილისამებრ ჩაერთვება?*</label
-              >
-
-              <div
-                class="flex flex-col mt-6 space-y-1 text-lg tracking-wider w-60"
-              >
-                <label>
-                  <Field
-                    type="radio"
-                    name="covid"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="nonFormalMeeting"
-                    value="twice_a_week"
-                  />
-                  კვირაში ორჯერ
-                </label>
-                <label>
-                  <Field
-                    type="radio"
-                    name="covid"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="nonFormalMeeting"
-                    value="once_a_week"
-                  />
-                  კვირაში ერთხელ
-                </label>
-                <label>
-                  <Field
-                    type="radio"
-                    name="covid"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="nonFormalMeeting"
-                    value="once_in_two_weeks"
-                  />
-                  ორ კვირაში ერთხელ
-                </label>
-                <label>
-                  <Field
-                    type="radio"
-                    name="covid"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="nonFormalMeeting"
-                    value="once_a_month"
-                  />
-                  თვეში ერთხელ
-                </label>
-                <ErrorMessage
-                  name="covid"
-                  class="text-red-500 mt-1 ml-4"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="relative">
-          <img
-            src="@/assets/images/bicycle.png"
-            alt=""
-            width="650"
-            class="mt-14"
+      <Form
+        :validation-schema="schema"
+        @submit="onSubmit"
+        class="mt-16 space-y-10 tracking-wide"
+      >
+        <label for="vaccine-yes">
+          <Field
+            type="radio"
+            name="vaccine"
+            id="vaccine-yes"
+            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+            @click="showLevelHandlerForYes"
+            v-model="covidVaccine"
+            :value="true"
           />
-          <transition name="slide-out-in" appear>
-            <img
-              src="@/assets/logos/tipsLogo.png"
-              alt=""
-              class="absolute top-24 left-20 opacity-70"
-            />
-          </transition>
-        </div>
-      </main>
-      <div class="">
-        <Form>
-          <label for="" class="font-bold text-lg w-80"
-            >კვირაში რამდენი დღე ისურვებდი ოფისიდან
-            <br />მუშაობას?*</label
-          >
-          <div
-            class="flex flex-col mt-6 space-y-1 text-lg tracking-wider w-60"
-          >
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="0"
-              />
-              0
-            </label>
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="1"
-              />
-              1
-            </label>
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="2"
-              />
-              2
-            </label>
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="3"
-              />
-              3
-            </label>
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="4"
-              />
-              4
-            </label>
-
-            <label>
-              <Field
-                type="radio"
-                name="covid-status"
-                class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                v-model="attendance"
-                value="5"
-              />
-              5
-            </label>
-          </div>
-        </Form>
-      </div>
-      <div class="w-[522px]">
-        <div class="flex flex-col mt-12">
-          <label class="font-bold">
-            რას ფიქრობ ფიზიკურ შეკრებებზე?</label
-          >
-          <textarea
-            class="py-12 resize-none mt-2"
-            v-model="meetingsInLive"
-            @blur="meetingsInLiveHandler"
+          კი
+        </label>
+        <label for="vaccine-no">
+          <Field
+            type="radio"
+            name="vaccine"
+            id="vaccine-no"
+            class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+            @click="showLevelHandlerForNo"
+            v-model="covidVaccine"
+            :value="false"
           />
-        </div>
-        <div class="flex flex-col w-[522px] mt-10">
-          <label class="font-bold">
-            რას ფიქრობ არსებულ გარემოზე: რა მოგწონს, რას დაამატებდი,
-            რას შეცვლიდი?</label
-          >
-          <textarea
-            class="py-12 resize-none mt-2"
-            v-model="opnionAboutUs"
-            @blur="opnionAboutUsHandler"
-          />
-        </div>
-        <button @click="click" class="h-96">click</button>
-        <FinishButton
-          class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
-        >
-          დასრულება
-        </FinishButton>
-      </div>
-      <router-link :to="{ name: 'vaccine' }">
-        <img
-          src="@/assets/images/previous.png"
-          alt=""
-          class="mx-auto mt-20"
-        />
-      </router-link>
-    </Form>
-  </div>
-</template>
+          არა
+        </label>
+        <button @submit="onSubmit">click</button>
+      </Form>
+    </div>
+  </template>
 
-<script setup>
-import Header from '@/components/Header.vue';
-import FinishButton from '@/components/FinishButton.vue';
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import { setLocale } from '@vee-validate/i18n';
-import { useRouter } from 'vue-router';
-import axios, { all } from 'axios';
-import * as rules from '@/config/rules.js';
-import * as messages from '@/config/messages.js';
+  <script setup>
+  import Header from '@/components/Header.vue';
+  import CustomButton from '@/components/CustomButton.vue';
+  import { Field, Form, ErrorMessage } from 'vee-validate';
+  import * as rules from '@/config/rules.js';
+  import * as messages from '@/config/messages.js';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useStore } from 'vuex';
 
-const store = useStore();
+  const store = useStore();
+  const router = useRouter();
 
-const nonFormalMeeting = ref(
-  localStorage.getItem('non_formal_meeting') || null
-);
+  const showForYes = ref(false);
+  const showForNo = ref(false);
+  const showLink = ref(false);
+  const showLinkForNo = ref(false);
 
-const attendance = ref(
-  localStorage.getItem('number_of_days_from_office') || null
-);
-
-const meetingsInLive = ref(
-  localStorage.getItem('what_about_meetings_in_live') || null
-);
-const opnionAboutUs = ref(
-  localStorage.getItem('tell_us_your_opinion_about_us') || null
-);
-
-const allStates = computed(() => {
-  const states = {};
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const value = JSON.parse(localStorage.getItem(key));
-    states[key] = value;
-  }
-  console.log(states);
-
-  return states;
-});
-
-const click = () => {
-  store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
-  store.commit('tips/setAttendance', attendance.value);
-  store.commit('tips/setMeetingsInLive', meetingsInLive.value);
-  store.commit('tips/setOpnionAboutUs', opnionAboutUs.value);
-};
-
-const onSubmit = () => {
-  const data = {
-    first_name: localStorage.getItem('first_name'),
-    last_name: localStorage.getItem('last_name'),
-    email: localStorage.getItem('email'),
-    had_covid: localStorage.getItem('had_covid'),
-    had_vaccine: localStorage.getItem('had_vaccine'),
-    had_antibody_test: localStorage.getItem('had_antibody_test'),
-    antibodies: JSON.parse(localStorage.getItem('antibodies')),
-    vaccination_stage: localStorage.getItem('vaccination_stage'),
-    non_formal_meeting: localStorage.getItem('non_formal_meeting'),
-    number_of_days_from_office: localStorage.getItem(
-      'number_of_days_from_office'
-    ),
-    what_about_meetings_in_live: localStorage.getItem(
-      'what_about_meetings_in_live'
-    ),
-    tell_us_your_opinion_about_us: localStorage.getItem(
-      'tell_us_your_opinion_about_us'
-    ),
+  const showLevelHandlerForYes = () => {
+    showForYes.value = true;
+    showForNo.value = false;
+  };
+  const showLevelHandlerForNo = () => {
+    showForNo.value = true;
+    showForYes.value = false;
+  };
+  const showLinkHandler = () => {
+    showLink.value = true;
+    showLinkForNo.value = false;  
+  };
+  const showLinkHandlerForNo = () => {
+    showLinkForNo.value = true;
+    showLink.value = false;
   };
 
-  axios
-    .post('https://covid19.devtest.ge/api/create', data)
-    .then((response) => {
-      if (response.status === 201) {
-        console.log('Record created successfully!');
-        router.push({ name: 'thanks' });
-        localStorage.clear();
+  // const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+
+  const storedVaccineStatus = localStorage.getItem('vaccineStatus');
+  
+  const covidVaccine = storedVaccineStatus
+    ? JSON.parse(storedVaccineStatus)
+    : null;
+
+  const vaccinatedlevel = ref(
+    localStorage.getItem('vaccination_stage') || null
+  );
+  const schema = {
+    vaccine: (value) => {
+      if (value) {
+        return true;
       }
-    })
-    .catch((error) => {
-      console.log(error);
-      console.log(data)
-    });
-};
-</script>
+      return 'ეს ველი სავალდებულოა';
+    },
+  };
 
-<style>
-.slide-out-in-enter-active,
-.slide-out-in-leave-active {
-  transition: transform 1s ease, opacity 1s ease;
-}
+  const waitingFor = ref(localStorage.getItem('waiting_for') || null);
 
-.slide-out-in-enter-from,
-.slide-out-in-leave-to {
-  transform: translatex(5%) scale(1.2) translateY(-25%);
-  opacity: 0;
-}
+  const onSubmit = () => {
+    localStorage.setItem('vaccineStatus', JSON.stringify(covidVaccine.value));
+    console.log(covidVaccine.value)
+    store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
+    store.commit('vaccine/setWaitingFor', waitingFor.value);
+    router.push({ name: 'tips' });
+  };
+  </script>
 
-.slide-out-in-enter-to,
-.slide-out-in-leave-from {
-  transform: translatex(0);
-  opacity: 0.7;
-}
-</style>
+

@@ -23,7 +23,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForYes"
                   v-model="covidVaccine"
-                  value="true"
+                  :value="true"
                 />
                 კი
               </label>
@@ -35,15 +35,15 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForNo"
                   v-model="covidVaccine"
-                  value="false"
+                  :value="false"
                 />
                 არა
               </label>
             </div>
-            <ErrorMessage
+            <!-- <ErrorMessage
               name="vaccine"
               class="text-red-500 mt-1 ml-4"
-            />
+            /> -->
           </div>
 
           <div v-if="showForYes" class="mt-10">
@@ -213,10 +213,12 @@ const showLinkForNo = ref(false);
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
   showForNo.value = false;
+  localStorage.setItem('had_vaccine', true);
 };
 const showLevelHandlerForNo = () => {
   showForNo.value = true;
   showForYes.value = false;
+  localStorage.setItem('had_vaccine', false);
 };
 const showLinkHandler = () => {
   showLink.value = true;
@@ -227,7 +229,12 @@ const showLinkHandlerForNo = () => {
   showLink.value = false;
 };
 
-const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+// const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+
+const storedVaccineStatus = localStorage.getItem('had_vaccine');
+const covidVaccine = storedVaccineStatus
+  ? JSON.parse(storedVaccineStatus)
+  : null;
 
 const vaccinatedlevel = ref(
   localStorage.getItem('vaccination_stage') || null
@@ -244,7 +251,11 @@ const schema = {
 const waitingFor = ref(localStorage.getItem('waiting_for') || null);
 
 const onSubmit = () => {
-  store.commit('vaccine/setVaccine', covidVaccine.value);
+  let hadVaccine = null;
+  if (covidVaccine === true || covidVaccine === false) {
+    hadVaccine = covidVaccine;
+  }
+  store.commit('vaccine/setVaccine', hadVaccine);
   store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
   store.commit('vaccine/setWaitingFor', waitingFor.value);
   router.push({ name: 'tips' });

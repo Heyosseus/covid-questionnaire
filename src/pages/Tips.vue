@@ -189,7 +189,6 @@
             @blur="opnionAboutUsHandler"
           />
         </div>
-        <button @click="click" class="h-96">click</button>
         <FinishButton
           class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
         >
@@ -220,7 +219,7 @@ import * as rules from '@/config/rules.js';
 import * as messages from '@/config/messages.js';
 
 const store = useStore();
-
+const router = useRouter();
 const nonFormalMeeting = ref(
   localStorage.getItem('non_formal_meeting') || null
 );
@@ -230,28 +229,27 @@ const attendance = ref(
 );
 
 const meetingsInLive = ref(
-  localStorage.getItem('what_about_meetings_in_live') || null
+  localStorage.getItem('what_about_meetings_in_live') || ''
 );
 const opnionAboutUs = ref(
-  localStorage.getItem('tell_us_your_opinion_about_us') || null
+  localStorage.getItem('tell_us_your_opinion_about_us') || ''
 );
 
 
-const click = () => {
+
+const onSubmit = () => {
   store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
   store.commit('tips/setAttendance', attendance.value);
   store.commit('tips/setMeetingsInLive', meetingsInLive.value);
   store.commit('tips/setOpnionAboutUs', opnionAboutUs.value);
-};
-
-const onSubmit = () => {
   const data = {
     first_name: localStorage.getItem('first_name'),
     last_name: localStorage.getItem('last_name'),
     email: localStorage.getItem('email'),
     had_covid: localStorage.getItem('had_covid'),
-    had_vaccine: localStorage.getItem('had_vaccine'),
+    had_vaccine: JSON.parse(localStorage.getItem('had_vaccine')),
     had_antibody_test: localStorage.getItem('had_antibody_test'),
+    covid_sickness_date: localStorage.getItem('covid_sickness_date'),
     antibodies: JSON.parse(localStorage.getItem('antibodies')),
     vaccination_stage: localStorage.getItem('vaccination_stage'),
     non_formal_meetings: localStorage.getItem('non_formal_meeting'),
@@ -276,13 +274,15 @@ const onSubmit = () => {
       }
     })
     .catch((error) => {
-    if (error.response && error.response.status === 422) {
-      console.log('Unprocessable Entity Error');
-      console.log(error.response.data); // Log the error response data
-    } else {
-      console.log('Other Error');
-      console.log(error);
-    }})
+      if (error.response && error.response.status === 422) {
+        console.log('Unprocessable Entity Error');
+        console.log(error.response.data); // Log the error response data
+        console.log(had_vaccine);
+      } else {
+        console.log('Other Error');
+        console.log(error);
+      }
+    });
 };
 </script>
 

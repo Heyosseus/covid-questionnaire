@@ -47,7 +47,7 @@
                   id="status-Ihave"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
-                  value="Ihave"
+                  value="have_right_now"
                   @click="showAnti = false"
                 />
                 ახლა მაქვს
@@ -104,7 +104,7 @@
                 როდის გქონდა Covid-19*</label
               >
               <Field
-                type="text"
+                type="date"
                 class="w-96 mt-6"
                 placeholder="დდ/თთ/წწ"
                 rules="required"
@@ -171,7 +171,7 @@
 <script setup>
 import Header from '@/components/Header.vue';
 import CustomButton from '../components/CustomButton.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { setLocale } from '@vee-validate/i18n';
@@ -187,13 +187,21 @@ const covidStatus = ref(localStorage.getItem('had_covid') || '');
 const vaccineStatus = ref(
   localStorage.getItem('had_antibody_test') || ''
 );
-const antibodies = ref(
-  JSON.parse(localStorage.getItem('antibodies'))
-);
 
-const testDate = antibodies.test_date;
-const number = antibodies.number;
+const testDate = ref('');
+const number = ref('');
 
+onMounted(() => {
+  const storedAntibodies = localStorage.getItem('antibodies');
+  const antibodies = storedAntibodies
+    ? JSON.parse(storedAntibodies)
+    : null;
+
+  if (antibodies) {
+    testDate.value = antibodies.test_date || '';
+    number.value = antibodies.number || '';
+  }
+});
 const sicknessDate = ref(
   localStorage.getItem('covid_sickness_date') || ''
 );
@@ -226,12 +234,16 @@ const schema = {
 
 const onSubmit = () => {
   store.commit('survey/setHadCovid', covidStatus.value);
+  console.log(vaccineStatus.value)
   store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
+  store.commit('survey/setCovidSicknessDate', sicknessDate.value);
   const antibodies = {
-    test_date: testDate,
-    number: number,
+    test_date: testDate.value || null,
+    number: number.value || null,
   };
+
   console.log(antibodies);
+
   localStorage.setItem('antibodies', JSON.stringify(antibodies));
   router.push({ name: 'vaccine' });
 };
