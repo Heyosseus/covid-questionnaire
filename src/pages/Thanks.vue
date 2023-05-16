@@ -6,11 +6,14 @@
       <transition name="slide-in" appear>
         <img src="@/assets/images/star.png" alt="" class="mr-52" />
       </transition>
-      <h1
-        class="text-white text-6xl mt-6 tracking-wider font-extrabold"
-      >
-        მადლობა
-      </h1>
+      <transition name="fade-out" appear>
+        <h1
+          class="text-white text-6xl mt-6 tracking-wider font-extrabold"
+        >
+          მადლობა
+        </h1>
+      </transition>
+
       <transition name="slide-out" appear>
         <img
           src="@/assets/logos/littleStar.png"
@@ -25,7 +28,8 @@
 <style>
 .slide-in-enter-active,
 .slide-in-leave-active {
-  transition: transform 0.8s ease, opacity 0.6s ease;
+  transition: transform 0.4s ease, opacity 0.6s ease;
+  transition-delay: 0.8s;
 }
 
 .slide-in-enter-from,
@@ -40,9 +44,11 @@
   opacity: 1;
 }
 
+/*  */
 .slide-out-enter-active,
 .slide-out-leave-active {
-  transition: transform 0.8s ease, opacity 0.6s ease;
+  transition: transform 0.4s ease, opacity 0.6s ease;
+  transition-delay: 0.8s;
 }
 
 .slide-out-enter-from,
@@ -55,5 +61,21 @@
 .slide-out-leave-from {
   transform: translatex(0);
   opacity: 1;
+}
+/*  */
+.fade-out-enter-active,
+.fade-out-leave-active {
+  transition: opacity 1s ease;
+}
+
+.fade-out-enter-from,
+.fade-out-leave-to {
+  opacity: 0;
+}
+
+.fade-out-enter-to,
+.fade-out-leave-from {
+  opacity: 1;
+  transition-duration: 1s;
 }
 </style>

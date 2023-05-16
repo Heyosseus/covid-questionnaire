@@ -72,8 +72,6 @@
 
 <script setup>
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import * as rules from '@/config/rules.js';
-import * as messages from '@/config/messages.js';
 import { setLocale } from '@vee-validate/i18n';
 import { ref } from 'vue';
 import CustomButton from '@/components/CustomButton.vue';

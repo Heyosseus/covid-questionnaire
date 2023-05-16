@@ -176,8 +176,7 @@ import { useStore } from 'vuex';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { setLocale } from '@vee-validate/i18n';
 import { useRouter } from 'vue-router';
-import * as rules from '@/config/rules.js';
-import * as messages from '@/config/messages.js';
+
 
 const store = useStore();
 const router = useRouter();

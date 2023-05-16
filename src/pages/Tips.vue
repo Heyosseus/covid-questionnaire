@@ -215,8 +215,6 @@ import { Field, Form, ErrorMessage } from 'vee-validate';
 import { setLocale } from '@vee-validate/i18n';
 import { useRouter } from 'vue-router';
 import axios, { all } from 'axios';
-import * as rules from '@/config/rules.js';
-import * as messages from '@/config/messages.js';
 
 const store = useStore();
 const router = useRouter();
@@ -251,7 +249,7 @@ const onSubmit = () => {
         : undefined,
     had_vaccine: JSON.parse(localStorage.getItem('had_vaccine')),
     covid_sickness_date:
-      localStorage.getItem('had_antibody_test') === false
+      localStorage.getItem('had_antibody_test') === 'false'
         ? localStorage.getItem('covid_sickness_date')
         : undefined,
     antibodies: {
@@ -265,7 +263,7 @@ const onSubmit = () => {
           : undefined,
     },
     vaccination_stage:
-      localStorage.getItem('had_vaccine') === 'true'
+      localStorage.getItem('had_vaccine') === true
         ? localStorage.getItem('vaccination_stage')
         : undefined,
     i_am_waiting:

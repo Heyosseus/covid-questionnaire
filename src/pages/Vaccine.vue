@@ -196,8 +196,6 @@
 import Header from '@/components/Header.vue';
 import CustomButton from '@/components/CustomButton.vue';
 import { Field, Form, ErrorMessage } from 'vee-validate';
-import * as rules from '@/config/rules.js';
-import * as messages from '@/config/messages.js';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
