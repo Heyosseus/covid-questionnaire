@@ -77,9 +77,7 @@ import { ref } from 'vue';
 import CustomButton from '@/components/CustomButton.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-components: {
-  Form, Field, ErrorMessage, CustomButton;
-}
+
 props: ['name', 'surname', 'email_input'];
 
 const store = useStore();

@@ -58,10 +58,7 @@
               class="text-red-500 mt-1 ml-4"
             />
           </div>
-          <!--  -->
-
           <div v-if="showAnti" class="mt-10">
-            <!-- <Form> -->
             <label class="font-bold text-lg mt-6"
               >ანტისხეულების ტესტი გაკეთებული გაქვს?*</label
             >
@@ -94,7 +91,6 @@
                 არა
               </label>
             </div>
-            <!-- </Form> -->
           </div>
 
           <div v-if="date" class="flex flex-col mt-4">
@@ -177,7 +173,6 @@ import { Field, Form, ErrorMessage } from 'vee-validate';
 import { setLocale } from '@vee-validate/i18n';
 import { useRouter } from 'vue-router';
 
-
 const store = useStore();
 const router = useRouter();
 
@@ -233,16 +228,12 @@ const schema = {
 
 const onSubmit = () => {
   store.commit('survey/setHadCovid', covidStatus.value);
-  console.log(vaccineStatus.value)
   store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
   store.commit('survey/setCovidSicknessDate', sicknessDate.value);
   const antibodies = {
     test_date: testDate.value || null,
     number: number.value || null,
   };
-
-  console.log(antibodies);
-
   localStorage.setItem('antibodies', JSON.stringify(antibodies));
   router.push({ name: 'vaccine' });
 };

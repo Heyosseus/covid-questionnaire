@@ -175,7 +175,6 @@
           <textarea
             class="py-12 resize-none mt-2"
             v-model="meetingsInLive"
-            @blur="meetingsInLiveHandler"
           />
         </div>
         <div class="flex flex-col w-[522px] mt-10">
@@ -263,7 +262,7 @@ const onSubmit = () => {
           : undefined,
     },
     vaccination_stage:
-      localStorage.getItem('had_vaccine') === true
+      localStorage.getItem('had_vaccine') === 'true'
         ? localStorage.getItem('vaccination_stage')
         : undefined,
     i_am_waiting:
