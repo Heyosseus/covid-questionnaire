@@ -1,31 +1,44 @@
-const surveyModules = {
+import { ref } from 'vue';
+
+const surveyModule = {
+  namespaced: true,
   state() {
     return {
-      covidStatus: '',
-      vaccineStatus: '',
-      testDate: '',
-      number: '',
+      had_covid: ref(localStorage.getItem('had_covid') || ''),
+      had_antibody_test: ref(
+        localStorage.getItem('had_antibody_test') || ''
+      ),
+      antibodies: {
+        number: ref(localStorage.getItem('number') || ''),
+        test_date: ref(localStorage.getItem('test_date') || ''),
+      },
+      covid_sickeness_date: ref(
+        localStorage.getItem('covid_sickness_date') || ''
+      ),
     };
   },
-  getters: {
-    getCovidStatus(state) {
-      return state.covidStatus;
-    },
-  },
   mutations: {
-    setCovidStatus(state, covidStatus) {
-      state.covidStatus = covidStatus;
+    setHadCovid(state, had_covid) {
+      state.had_covid = had_covid;
+      localStorage.setItem('had_covid', had_covid);
     },
-    setVaccineStatus(state, vaccineStatus) {
-      state.vaccineStatus = vaccineStatus;
+    setHadAntibodyTest(state, had_antibody_test) {
+      state.had_antibody_test = had_antibody_test;
+      localStorage.setItem('had_antibody_test', had_antibody_test);
     },
-    setTestDate(state, testDate) {
-      state.testDate = testDate;
+    setAntibodies(state, antibodies) {
+      state.antibodies = antibodies;
+      localStorage.setItem('antibodies', JSON.stringify(antibodies));
     },
-    setNumber(state, number) {
-      state.number = number;
+
+    setCovidSicknessDate(state, covid_sickness_date) {
+      state.covid_sickness_date = covid_sickness_date;
+      localStorage.setItem(
+        'covid_sickness_date',
+        covid_sickness_date
+      );
     },
   },
 };
 
-export default surveyModules;
+export default surveyModule;

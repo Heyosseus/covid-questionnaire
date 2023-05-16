@@ -1,52 +1,54 @@
 <template>
   <div class="py-24 px-44">
     <Header :count="'3/4'" />
-    <main class="flex justify-between">
-      <div class="flex-col">
-        <form
-          action=""
-          class="mt-16 space-y-10 tracking-wide"
-          @click="radioButtonHandler"
-        >
-          <div class="">
-            <label for="" class="font-bold text-lg"
-              >უკვე აცრილი ხარ?*</label
-            >
+
+    <Form
+      :validation-schema="schema"
+      @submit="onSubmit"
+      class="mt-16 space-y-10 tracking-wide"
+    >
+      <main class="flex justify-between">
+        <div class="flex-col">
+          <div>
+            <label class="font-bold text-lg">უკვე აცრილი ხარ?*</label>
 
             <div
               class="flex flex-col mt-6 space-y-2 text-lg font-semibold w-36"
             >
               <label for="vaccine-yes">
-                <input
+                <Field
                   type="radio"
-                  name="covid-vaccine"
+                  name="vaccine"
                   id="vaccine-yes"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForYes"
                   v-model="covidVaccine"
-                  value="yes"
+                  value="true"
                 />
                 კი
               </label>
               <label for="vaccine-no">
-                <input
+                <Field
                   type="radio"
-                  name="covid-vaccine"
+                  name="vaccine"
                   id="vaccine-no"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLevelHandlerForNo"
                   v-model="covidVaccine"
-                  value="no"
+                  value="false"
                 />
                 არა
               </label>
             </div>
+            <!-- <ErrorMessage
+              name="vaccine"
+              class="text-red-500 mt-1 ml-4"
+            /> -->
           </div>
-        </form>
-        <!--  -->
-        <div v-if="showForYes" class="mt-10">
-          <form action="" @click="levelHandler">
-            <label for="" class="font-bold text-lg mt-6"
+
+          <div v-if="showForYes" class="mt-10">
+            <!-- <Form> -->
+            <label class="font-bold text-lg mt-6"
               >აირჩიე რა ეტაპზე ხარ*</label
             >
 
@@ -54,48 +56,110 @@
               class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[600px]"
             >
               <label for="first_and_registered">
-                <input
+                <Field
                   type="radio"
                   name="vaccine-level"
                   id="first_and_registered"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="vaccinatedlevel"
-                  value="first_and_registered"
+                  value="first_dosage_and_registered_on_the_second"
                 />
                 პირველი დოზა და დარეგისტრირებული ვარ მეორეზე
               </label>
               <label for="vaccinated">
-                <input
+                <Field
                   type="radio"
                   name="vaccine-level"
                   id="vaccinated"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="vaccinatedlevel"
-                  value="vaccinated"
+                  value="fully_vaccinated"
                 />
                 სრულად აცრილი ვარ
               </label>
               <label for="first_and_not_registered">
-                <input
+                <Field
                   type="radio"
                   name="vaccine-level"
                   id="first_and_not_registered"
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   @click="showLinkHandler"
                   v-model="vaccinatedlevel"
-                  value="first_and_not_registered"
+                  value="first_dosage_and_not_registered_yet"
                 />
                 პირველი დოზა და არ დავრეგისტრირებულვარ მეორეზე
               </label>
+
+              <ErrorMessage
+                name="vaccine-level"
+                class="text-red-500 mt-1 ml-4"
+              />
             </div>
-          </form>
+            <!-- </Form> -->
+            <div
+              v-if="showLink"
+              class="mt-16 font-semibold text-lg ml-6"
+            >
+              <p>
+                რომ არ გადადო, <br />
+                ბარემ ახლავე დარეგისტრირდი
+              </p>
+
+              <p class="mt-6">👉 რეგისტრაციის ბმული</p>
+              <a href="#" class="text-blue-600">
+                https://booking.moh.gov.ge/</a
+              >
+            </div>
+          </div>
+          <div v-if="showForNo" class="mt-10">
+            <Form>
+              <label class="font-bold text-lg mt-6"
+                >რას ელოდები?*</label
+              >
+              <div
+                class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
+              >
+                <label>
+                  <Field
+                    type="radio"
+                    name="vaccine-status"
+                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                    v-model="waitingFor"
+                    value="registered_and_waiting"
+                  />
+                  დარეგისტრირებული ვარ და ველოდები რიცხვს
+                </label>
+                <label>
+                  <Field
+                    type="radio"
+                    name="vaccine-status"
+                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                    v-model="waitingFor"
+                    value="not_planning"
+                  />
+                  არ ვგეგმავ
+                </label>
+                <label>
+                  <Field
+                    type="radio"
+                    name="vaccine-status"
+                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                    @click="showLinkHandlerForNo"
+                    v-model="waitingFor"
+                    value="had_covid_and_planning_to_be_vaccinated"
+                  />
+                  გადატანილი მაქვს და ვგეგმავ აცრას
+                </label>
+              </div>
+            </Form>
+          </div>
           <div
-            v-if="showLink"
+            v-if="showLinkForNo"
             class="mt-16 font-semibold text-lg ml-6"
           >
             <p>
-              რომ არ გადადო, <br />
-              ბარემ ახლავე დარეგისტრირდი
+              ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
+              შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
             </p>
 
             <p class="mt-6">👉 რეგისტრაციის ბმული</p>
@@ -104,149 +168,93 @@
             >
           </div>
         </div>
-        <div v-if="showForNo" class="mt-10">
-          <form action="" @click="waitingForHandler">
-            <label for="" class="font-bold text-lg mt-6"
-              >რას ელოდები?*</label
-            >
-
-            <div
-              class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
-            >
-              <label>
-                <input
-                  type="radio"
-                  name="vaccine-status"
-                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                  v-model="waitingFor"
-                  value="registered_and_waiting_for_date"
-                />
-                დარეგისტრირებული ვარ და ველოდები რიცხვს
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="vaccine-status"
-                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                  v-model="waitingFor"
-                  value="not_planning"
-                />
-                არ ვგეგმავ
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="vaccine-status"
-                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                  @click="showLinkHandler"
-                  v-model="waitingFor"
-                  value="had_covid_and_planning"
-                />
-                გადატანილი მაქვს და ვგეგმავ აცრას
-              </label>
-            </div>
-          </form>
+        <div class="relative">
+          <img src="@/assets/images/doctor.png" alt="" class="mt-6" />
+          <transition name="slide-in" appear>
+            <img
+              src="@/assets/logos/vaccineLogo.png"
+              alt=""
+              class="absolute top-0 mb-10 left-8 opacity-60"
+            />
+          </transition>
         </div>
-        <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
-          <p>
-            ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
-            შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
-          </p>
+      </main>
 
-          <p class="mt-6">👉 რეგისტრაციის ბმული</p>
-          <a href="#" class="text-blue-600">
-            https://booking.moh.gov.ge/</a
-          >
+      <div class="flex justify-center items-center space-x-20">
+        <div>
+          <router-link :to="{ name: 'survey' }">
+            <img src="@/assets/images/previous.png" alt="" />
+          </router-link>
         </div>
+        <CustomButton type="submit"></CustomButton>
       </div>
-      <div class="relative">
-        <img src="@/assets/images/doctor.png" alt="" class="mt-6"/>
-        <transition name="slide-in" appear>
-          <img
-            src="@/assets/logos/vaccineLogo.png"
-            alt=""
-            class="absolute top-0 mb-10 left-8 opacity-60"
-          />
-        </transition>
-      </div>
-    </main>
-    <div class="flex items-center justify-center space-x-28 mt-16">
-      <router-link :to="{ name: 'survey' }">
-        <img src="@/assets/images/previous.png" alt="" />
-      </router-link>
-
-      <router-link :to="{ name: 'tips' }">
-        <img src="@/assets/images/next.png" alt="" />
-      </router-link>
-    </div>
+    </Form>
   </div>
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue';
+import CustomButton from '@/components/CustomButton.vue';
+import { Field, Form, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';
-import { onBeforeRouteLeave } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
-const covidVaccine = ref(localStorage.getItem('had_vaccine') || null);
+const store = useStore();
+const router = useRouter();
+
 const showForYes = ref(false);
 const showForNo = ref(false);
 const showLink = ref(false);
-
-const vaccinatedlevel = ref(
-  localStorage.getItem('vaccination_stage') || null
-);
-
-const waitingFor = ref(localStorage.getItem('waiting_for') || null);
+const showLinkForNo = ref(false);
 
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
   showForNo.value = false;
+  localStorage.setItem('had_vaccine', true);
 };
 const showLevelHandlerForNo = () => {
   showForNo.value = true;
   showForYes.value = false;
+  localStorage.setItem('had_vaccine', false);
 };
 const showLinkHandler = () => {
   showLink.value = true;
+  showLinkForNo.value = false;
+};
+const showLinkHandlerForNo = () => {
+  showLinkForNo.value = true;
+  showLink.value = false;
 };
 
-const radioButtonHandler = (e) => {
-  covidVaccine.value = e.target.value;
-  localStorage.setItem('had_vaccine', covidVaccine.value);
+const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+
+// const storedVaccineStatus = localStorage.getItem('had_vaccine');
+// const covidVaccine = storedVaccineStatus
+//   ? JSON.parse(storedVaccineStatus)
+//   : '';
+
+const vaccinatedlevel = ref(
+  localStorage.getItem('vaccination_stage') || null
+);
+const schema = {
+  vaccine: (value) => {
+    if (value) {
+      return true;
+    }
+    return 'ეს ველი სავალდებულოა';
+  },
 };
 
-const levelHandler = (e) => {
-  vaccinatedlevel.value = e.target.value;
-  localStorage.setItem('vaccination_stage', vaccinatedlevel.value);
-};
+const waitingFor = ref(localStorage.getItem('i_am_waiting') || null);
 
-const waitingForHandler = (e) => {
-  waitingFor.value = e.target.value;
-  localStorage.setItem('waiting_for', waitingFor.value);
-};
+const onSubmit = () => {
 
-const isValid = () => {
-  if (
-    covidVaccine.value === 'yes' &&
-    vaccinatedlevel.value !== null
-  ) {
-    return true;
-  } else if (
-    covidVaccine.value === 'no' &&
-    vaccinatedlevel.value !== null
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  store.commit('vaccine/setVaccine', covidVaccine.value);
+  store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
+  store.commit('vaccine/setWaitingFor', waitingFor.value);
+  router.push({ name: 'tips' });
 };
-onBeforeRouteLeave((to, _, next) => {
-  if (to.path === '/tips' && !isValid()) {
-    next(false);
-  } else {
-    next();
-  }
-});
 </script>
 
 <style>
