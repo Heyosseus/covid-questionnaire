@@ -231,26 +231,40 @@ const meetingsInLive = ref(
 const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || ''
 );
+
+const {
+  first_name,
+  last_name,
+  email,
+  had_covid,
+  had_antibody_test,
+  had_vaccine,
+  covid_sickness_date,
+  vaccination_stage,
+  i_am_waiting,
+  non_formal_meeting,
+  number_of_days_from_office,
+  what_about_meetings_in_live,
+  tell_us_your_opinion_about_us,
+} = localStorage;
+
 const antibodies = JSON.parse(localStorage.getItem('antibodies'));
+
 const onSubmit = () => {
   store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
   store.commit('tips/setAttendance', attendance.value);
   store.commit('tips/setMeetingsInLive', meetingsInLive.value);
   store.commit('tips/setOpnionAboutUs', opnionAboutUs.value);
   const data = {
-    first_name: localStorage.getItem('first_name'),
-    last_name: localStorage.getItem('last_name'),
-    email: localStorage.getItem('email'),
-    had_covid: localStorage.getItem('had_covid'),
+    first_name,
+    last_name,
+    email,
+    had_covid,
     had_antibody_test:
-      localStorage.getItem('had_covid') === 'yes'
-        ? localStorage.getItem('had_antibody_test')
-        : undefined,
-    had_vaccine: JSON.parse(localStorage.getItem('had_vaccine')),
+      had_covid === 'yes' ? had_antibody_test : undefined,
+    had_vaccine: JSON.parse(had_vaccine),
     covid_sickness_date:
-      localStorage.getItem('had_antibody_test') === 'false'
-        ? localStorage.getItem('covid_sickness_date')
-        : undefined,
+      had_antibody_test === 'false' ? covid_sickness_date : undefined,
     antibodies: {
       test_date:
         antibodies && antibodies.test_date
@@ -262,25 +276,12 @@ const onSubmit = () => {
           : undefined,
     },
     vaccination_stage:
-      localStorage.getItem('had_vaccine') === 'true'
-        ? localStorage.getItem('vaccination_stage')
-        : undefined,
-    i_am_waiting:
-      localStorage.getItem('had_vaccine') === 'false'
-        ? localStorage.getItem('i_am_waiting')
-        : undefined,
-
-    non_formal_meetings: localStorage.getItem('non_formal_meeting'),
-
-    number_of_days_from_office: localStorage.getItem(
-      'number_of_days_from_office'
-    ),
-    what_about_meetings_in_live: localStorage.getItem(
-      'what_about_meetings_in_live'
-    ),
-    tell_us_your_opinion_about_us: localStorage.getItem(
-      'tell_us_your_opinion_about_us'
-    ),
+      had_vaccine === 'true' ? vaccination_stage : undefined,
+    i_am_waiting: had_vaccine === 'false' ? i_am_waiting : undefined,
+    non_formal_meetings: non_formal_meeting,
+    number_of_days_from_office,
+    what_about_meetings_in_live,
+    tell_us_your_opinion_about_us,
   };
   Object.keys(data).forEach((key) => {
     if (data[key] === undefined) {
