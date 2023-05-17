@@ -1,24 +1,20 @@
 <template>
   <div class="min-h-[100vh] bg-[#232323]">
     <div
-      class="flex flex-col items-center justify-center min-h-[90vh]"
+      class="flex flex-col items-center justify-center mx-auto  min-h-[90vh] w-96 space-y-6"
     >
       <transition name="slide-in" appear>
-        <img src="@/assets/images/star.png" alt="" class="mr-52" />
+        <img src="@/assets/images/star.png" alt="" class="mr-auto ml-8" />
       </transition>
       <transition name="fade-out" appear>
-        <h1
-          class="text-white text-6xl mt-6 tracking-wider font-extrabold"
-        >
-          მადლობა
-        </h1>
+        <img src="@/assets/logos/thankyou.png" alt="">
       </transition>
 
       <transition name="slide-out" appear>
         <img
           src="@/assets/logos/littleStar.png"
           alt=""
-          class="ml-44 mt-6"
+          class="ml-auto mr-6"
         />
       </transition>
     </div>
