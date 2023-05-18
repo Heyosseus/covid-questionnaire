@@ -78,7 +78,12 @@ import CustomButton from '@/components/CustomButton.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-props: ['name', 'surname', 'email_input'];
+// props: ['name', 'surname', 'email_input'];
+// const { name, surname, email_input } = defineProps({
+//   name: String,
+//   surname: String,
+//   email_input: String,
+// });
 
 const store = useStore();
 const router = useRouter();

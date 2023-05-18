@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'3/4'" />
+    <BaseHeader :count="'3/4'" />
 
     <Form
       :validation-schema="schema"
@@ -193,7 +193,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
 import CustomButton from '@/components/CustomButton.vue';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';

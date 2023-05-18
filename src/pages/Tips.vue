@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'4/4'" />
+    <BaseHeader :count="'4/4'" />
 
     <Form
       action=""
@@ -206,7 +206,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
 import FinishButton from '@/components/FinishButton.vue';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';

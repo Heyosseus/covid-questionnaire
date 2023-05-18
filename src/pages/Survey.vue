@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'2/4'" />
+    <BaseHeader :count="'2/4'" />
 
     <Form
       :validation-schema="schema"
@@ -165,7 +165,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
 import CustomButton from '../components/CustomButton.vue';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
