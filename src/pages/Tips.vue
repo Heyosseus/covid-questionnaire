@@ -86,11 +86,9 @@
             class="mt-14"
           />
           <transition name="slide-out-in" appear>
-            <img
-              src="@/assets/logos/tipsLogo.png"
-              alt=""
+            <icon-tips
               class="absolute top-24 left-20 opacity-70"
-            />
+            ></icon-tips>
           </transition>
         </div>
       </main>
@@ -190,16 +188,14 @@
         </div>
         <FinishButton
           class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
-        > 
+        >
           დასრულება
         </FinishButton>
       </div>
       <router-link :to="{ name: 'vaccine' }">
-        <img
-          src="@/assets/images/previous.png"
-          alt=""
+        <icon-previous-button
           class="mx-auto mt-20"
-        />
+        ></icon-previous-button>
       </router-link>
     </Form>
   </div>
@@ -208,6 +204,8 @@
 <script setup>
 import BaseHeader from '@/components/BaseHeader.vue';
 import FinishButton from '@/components/FinishButton.vue';
+import IconTips from '../components/icons/IconTips.vue';
+import IconPreviousButton from '../components/icons/IconPreviousButton.vue';
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { Field, Form, ErrorMessage } from 'vee-validate';
@@ -231,8 +229,6 @@ const meetingsInLive = ref(
 const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || ''
 );
-
-
 
 const antibodies = JSON.parse(localStorage.getItem('antibodies'));
 const onSubmit = () => {
@@ -303,7 +299,7 @@ const onSubmit = () => {
     .catch((error) => {
       if (error.response && error.response.status === 422) {
         console.log('Unprocessable Entity Error');
-        console.log(error.response.data); 
+        console.log(error.response.data);
       } else {
         console.log('Other Error');
         console.log(error);
