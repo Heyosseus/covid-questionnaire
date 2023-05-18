@@ -51,10 +51,7 @@
       </div>
 
       <div class="relative">
-        <img
-          src="@/assets/images/couple.png"
-          class="w-[800px] z-20"
-        />
+        <img src="@/assets/images/couple.png" class="w-[800px] z-20" />
         <transition name="slide" appear key="personal">
           <img
             src="@/assets/logos/personalLogo.png"
@@ -71,14 +68,13 @@
 </template>
 
 <script setup>
-import { Form, Field, ErrorMessage } from 'vee-validate';
-import { setLocale } from '@vee-validate/i18n';
-import { ref, computed } from 'vue';
-import CustomButton from '@/components/CustomButton.vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { defineProps } from 'vue';
-
+import { Form, Field, ErrorMessage } from "vee-validate";
+import { setLocale } from "@vee-validate/i18n";
+import { ref, computed } from "vue";
+import CustomButton from "@/components/CustomButton.vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { defineProps } from "vue";
 
 const props = defineProps({
   name: String,
@@ -86,18 +82,17 @@ const props = defineProps({
   email_input: String,
 });
 
-
 const store = useStore();
 const router = useRouter();
 
-const name = ref(localStorage.getItem('first_name') || '');
-const surname = ref(localStorage.getItem('last_name') || '');
-const email_input = ref(localStorage.getItem('email') || '');
+const name = ref(localStorage.getItem("first_name") || "");
+const surname = ref(localStorage.getItem("last_name") || "");
+const email_input = ref(localStorage.getItem("email") || "");
 
 const onSubmit = () => {
-  store.commit('setName', name.value);
-  store.commit('setSurname', surname.value);
-  store.commit('setEmail', email_input.value);
-  router.push({ name: 'survey' });
+  store.commit("setName", name.value);
+  store.commit("setSurname", surname.value);
+  store.commit("setEmail", email_input.value);
+  router.push({ name: "survey" });
 };
 </script>
