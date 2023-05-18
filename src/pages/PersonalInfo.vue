@@ -12,7 +12,7 @@
 
 <script setup>
 import Header from '@/components/Header.vue';
-import Form from '../components/personal/Form.vue';
+import Form from '../components/personal/Form.vue'; 
 </script>
 
 <style>
