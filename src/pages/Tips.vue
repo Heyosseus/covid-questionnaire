@@ -190,7 +190,7 @@
         </div>
         <FinishButton
           class="px-6 py-3 bg-[#208298] text-white font-bold rounded-full flex align-center justify-center mt-10 ml-auto"
-        >
+        > 
           დასრულება
         </FinishButton>
       </div>
@@ -231,6 +231,9 @@ const meetingsInLive = ref(
 const opnionAboutUs = ref(
   localStorage.getItem('tell_us_your_opinion_about_us') || ''
 );
+
+
+
 const antibodies = JSON.parse(localStorage.getItem('antibodies'));
 const onSubmit = () => {
   store.commit('tips/setNonFormalMeeting', nonFormalMeeting.value);
@@ -300,7 +303,7 @@ const onSubmit = () => {
     .catch((error) => {
       if (error.response && error.response.status === 422) {
         console.log('Unprocessable Entity Error');
-        console.log(error.response.data); // Log the error response data
+        console.log(error.response.data); 
       } else {
         console.log('Other Error');
         console.log(error);

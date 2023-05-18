@@ -229,10 +229,9 @@ const showLinkHandlerForNo = () => {
 
 const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
 
-// const storedVaccineStatus = localStorage.getItem('had_vaccine');
-// const covidVaccine = storedVaccineStatus
-//   ? JSON.parse(storedVaccineStatus)
-//   : '';
+const waitingFor = ref(localStorage.getItem('i_am_waiting') || '');
+
+
 
 const vaccinatedlevel = ref(
   localStorage.getItem('vaccination_stage') || null
@@ -246,13 +245,13 @@ const schema = {
   },
 };
 
-const waitingFor = ref(localStorage.getItem('i_am_waiting') || null);
 
 const onSubmit = () => {
 
   store.commit('vaccine/setVaccine', covidVaccine.value);
   store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
   store.commit('vaccine/setWaitingFor', waitingFor.value);
+  console.log(waitingFor.value);
   router.push({ name: 'tips' });
 };
 </script>
