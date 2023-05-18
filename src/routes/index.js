@@ -1,35 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../pages/Home.vue';
+import PersonalInfo from '../pages/PersonalInfo.vue';
+import Survey from '../pages/Survey.vue';
+import Vaccine from '../pages/Vaccine.vue';
+import Tips from '../pages/Tips.vue';
+import Thanks from '../pages/Thanks.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../pages/Home.vue'),
+    component: Home,
   },
   {
     path: '/personal',
     name: 'personal',
-    component: () => import('../pages/PersonalInfo.vue'),
+    component: PersonalInfo,
   },
   {
     path: '/survey',
     name: 'survey',
-    component: () => import('../pages/Survey.vue'),
+    component: Survey,
   },
   {
     path: '/vaccine',
     name: 'vaccine',
-    component: () => import('../pages/Vaccine.vue'),
+    component: Vaccine,
   },
   {
     path: '/tips',
     name: 'tips',
-    component: () => import('../pages/Tips.vue'),
+    component: Tips,
   },
   {
     path: '/thanks',
     name: 'thanks',
-    component: () => import('../pages/Thanks.vue'),
+    component: Thanks,
   },
 ];
 
