@@ -73,17 +73,19 @@
 <script setup>
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { setLocale } from '@vee-validate/i18n';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import CustomButton from '@/components/CustomButton.vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { defineProps } from 'vue';
 
-// props: ['name', 'surname', 'email_input'];
-// const { name, surname, email_input } = defineProps({
-//   name: String,
-//   surname: String,
-//   email_input: String,
-// });
+
+const props = defineProps({
+  name: String,
+  surname: String,
+  email_input: String,
+});
+
 
 const store = useStore();
 const router = useRouter();
