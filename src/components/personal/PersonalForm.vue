@@ -10,7 +10,7 @@
           placeholder="იოსებ"
           id="name"
           v-model="name"
-          rules="required|alpha|min:3|max:255"
+          rules="required|min:3|max:255|alphabet"
           @focus="setLocale('ka')"
         />
 
