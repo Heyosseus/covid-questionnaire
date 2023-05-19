@@ -23,7 +23,7 @@
           placeholder="ჯუღაშვილი"
           v-model="surname"
           name="surname"
-          rules="required|min:3|max:255"
+          rules="required|min:3|max:255|alphabet"
           @blur="setLocale('ka')"
         />
 
