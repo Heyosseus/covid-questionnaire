@@ -24,6 +24,7 @@
                   @click="showLevelHandlerForYes"
                   v-model="covidVaccine"
                   value="true"
+                  rules="required"
                 />
                 კი
               </label>
@@ -40,14 +41,9 @@
                 არა
               </label>
             </div>
-            <!-- <ErrorMessage
-              name="vaccine"
-              class="text-red-500 mt-1 ml-4"
-            /> -->
           </div>
 
           <div v-if="showForYes" class="mt-10">
-            <!-- <Form> -->
             <label class="font-bold text-lg mt-6">აირჩიე რა ეტაპზე ხარ*</label>
 
             <div
@@ -61,6 +57,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="vaccinatedlevel"
                   value="first_dosage_and_registered_on_the_second"
+                  rules="required"
                 />
                 პირველი დოზა და დარეგისტრირებული ვარ მეორეზე
               </label>
@@ -93,7 +90,6 @@
                 class="text-red-500 mt-1 ml-4"
               />
             </div>
-            <!-- </Form> -->
             <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
               <p>
                 რომ არ გადადო, <br />
@@ -105,44 +101,43 @@
             </div>
           </div>
           <div v-if="showForNo" class="mt-10">
-            <Form>
-              <label class="font-bold text-lg mt-6">რას ელოდები?*</label>
-              <div
-                class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
-              >
-                <label>
-                  <Field
-                    type="radio"
-                    name="vaccine-status"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="waitingFor"
-                    value="registered_and_waiting"
-                  />
-                  დარეგისტრირებული ვარ და ველოდები რიცხვს
-                </label>
-                <label>
-                  <Field
-                    type="radio"
-                    name="vaccine-status"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    v-model="waitingFor"
-                    value="not_planning"
-                  />
-                  არ ვგეგმავ
-                </label>
-                <label>
-                  <Field
-                    type="radio"
-                    name="vaccine-status"
-                    class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
-                    @click="showLinkHandlerForNo"
-                    v-model="waitingFor"
-                    value="had_covid_and_planning_to_be_vaccinated"
-                  />
-                  გადატანილი მაქვს და ვგეგმავ აცრას
-                </label>
-              </div>
-            </Form>
+            <label class="font-bold text-lg mt-6">რას ელოდები?*</label>
+            <div
+              class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
+            >
+              <label>
+                <Field
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="waitingFor"
+                  value="registered_and_waiting"
+                  rules="required"
+                />
+                დარეგისტრირებული ვარ და ველოდები რიცხვს
+              </label>
+              <label>
+                <Field
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  v-model="waitingFor"
+                  value="not_planning"
+                />
+                არ ვგეგმავ
+              </label>
+              <label>
+                <Field
+                  type="radio"
+                  name="vaccine-status"
+                  class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
+                  @click="showLinkHandlerForNo"
+                  v-model="waitingFor"
+                  value="had_covid_and_planning_to_be_vaccinated"
+                />
+                გადატანილი მაქვს და ვგეგმავ აცრას
+              </label>
+            </div>
           </div>
           <div v-if="showLinkForNo" class="mt-16 font-semibold text-lg ml-6">
             <p>
@@ -197,6 +192,7 @@ const showLinkForNo = ref(localStorage.getItem("had_vaccine") === "false");
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
   showForNo.value = false;
+  localStorage.setItem("had_vaccine", true);
 };
 const showLevelHandlerForNo = () => {
   showForNo.value = true;

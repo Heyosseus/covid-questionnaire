@@ -21,6 +21,7 @@
                   @click="showAntiTest"
                   v-model="covidStatus"
                   value="yes"
+                  rules="required"
                 />
                 კი
               </label>
@@ -66,6 +67,7 @@
                   @click="showNum"
                   v-model="vaccineStatus"
                   value="true"
+                  rules="required"
                 />
                 კი
               </label>
@@ -85,7 +87,7 @@
           </div>
 
           <div v-if="date" class="flex flex-col mt-4">
-            <Form class="flex flex-col">
+            <div class="flex flex-col">
               <label class="font-bold text-lg mt-6"
                 >მიუთითე მიახლოებითი პერიოდი (დღე/თვე/წელი) <br />
                 როდის გქონდა Covid-19*</label
@@ -94,15 +96,15 @@
                 type="date"
                 class="w-96 mt-6"
                 placeholder="დდ/თთ/წწ"
-                rules="required"
                 @focus="setLocale('ka')"
                 @blur="clickHandler"
                 name="sickness"
                 v-model="sicknessDate"
+                rules="required"
               />
               <ErrorMessage name="sickness" class="text-red-500 mt-2 ml-4" />
               <Field class="hidden" name="sickness" />
-            </Form>
+            </div>
           </div>
 
           <div v-if="num" class="flex flex-col mt-10">
@@ -117,6 +119,7 @@
               placeholder="რიცხვი"
               v-model="number"
               name="testNum"
+              rules="required"
             />
 
             <br />
