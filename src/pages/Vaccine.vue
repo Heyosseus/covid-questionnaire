@@ -48,9 +48,7 @@
 
           <div v-if="showForYes" class="mt-10">
             <!-- <Form> -->
-            <label class="font-bold text-lg mt-6"
-              >აირჩიე რა ეტაპზე ხარ*</label
-            >
+            <label class="font-bold text-lg mt-6">აირჩიე რა ეტაპზე ხარ*</label>
 
             <div
               class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[600px]"
@@ -96,26 +94,19 @@
               />
             </div>
             <!-- </Form> -->
-            <div
-              v-if="showLink"
-              class="mt-16 font-semibold text-lg ml-6"
-            >
+            <div v-if="showLink" class="mt-16 font-semibold text-lg ml-6">
               <p>
                 რომ არ გადადო, <br />
                 ბარემ ახლავე დარეგისტრირდი
               </p>
 
               <p class="mt-6">👉 რეგისტრაციის ბმული</p>
-              <a href="#" class="text-blue-600">
-                https://booking.moh.gov.ge/</a
-              >
+              <a href="#" class="text-blue-600"> https://booking.moh.gov.ge/</a>
             </div>
           </div>
           <div v-if="showForNo" class="mt-10">
             <Form>
-              <label class="font-bold text-lg mt-6"
-                >რას ელოდები?*</label
-              >
+              <label class="font-bold text-lg mt-6">რას ელოდები?*</label>
               <div
                 class="flex flex-col mt-6 space-y-2 text-lg font-bold w-[500px]"
               >
@@ -153,19 +144,14 @@
               </div>
             </Form>
           </div>
-          <div
-            v-if="showLinkForNo"
-            class="mt-16 font-semibold text-lg ml-6"
-          >
+          <div v-if="showLinkForNo" class="mt-16 font-semibold text-lg ml-6">
             <p>
               ახალი პროტოკოლით კოვიდის გადატანიდან 1 თვის <br />
               შემდეგ შეგიძლიათ ვაქცინის გაკეთება.
             </p>
 
             <p class="mt-6">👉 რეგისტრაციის ბმული</p>
-            <a href="#" class="text-blue-600">
-              https://booking.moh.gov.ge/</a
-            >
+            <a href="#" class="text-blue-600"> https://booking.moh.gov.ge/</a>
           </div>
         </div>
         <div class="relative">
@@ -191,32 +177,31 @@
 </template>
 
 <script setup>
-import BaseHeader from '@/components/BaseHeader.vue';
-import CustomButton from '@/components/CustomButton.vue';
-import IconVaccine from '../components/icons/IconVaccine.vue';
-import IconPreviousButton from '../components/icons/IconPreviousButton.vue';
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import BaseHeader from "@/components/BaseHeader.vue";
+import CustomButton from "@/components/CustomButton.vue";
+import IconVaccine from "../components/icons/IconVaccine.vue";
+import IconPreviousButton from "../components/icons/IconPreviousButton.vue";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 const store = useStore();
 const router = useRouter();
 
-const showForYes = ref(false);
-const showForNo = ref(false);
-const showLink = ref(false);
-const showLinkForNo = ref(false);
+const showForYes = ref(localStorage.getItem("had_vaccine") === "true");
+const showForNo = ref(localStorage.getItem("had_vaccine") === "false");
+const showLink = ref(localStorage.getItem("had_vaccine") === "true");
+const showLinkForNo = ref(localStorage.getItem("had_vaccine") === "false");
 
 const showLevelHandlerForYes = () => {
   showForYes.value = true;
   showForNo.value = false;
-  localStorage.setItem('had_vaccine', true);
 };
 const showLevelHandlerForNo = () => {
   showForNo.value = true;
   showForYes.value = false;
-  localStorage.setItem('had_vaccine', false);
+  localStorage.setItem("had_vaccine", false);
 };
 const showLinkHandler = () => {
   showLink.value = true;
@@ -227,28 +212,26 @@ const showLinkHandlerForNo = () => {
   showLink.value = false;
 };
 
-const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
+const covidVaccine = ref(localStorage.getItem("had_vaccine") || "");
 
-const waitingFor = ref(localStorage.getItem('i_am_waiting') || '');
+const waitingFor = ref(localStorage.getItem("i_am_waiting") || "");
 
-const vaccinatedlevel = ref(
-  localStorage.getItem('vaccination_stage') || null
-);
+const vaccinatedlevel = ref(localStorage.getItem("vaccination_stage") || null);
 const schema = {
   vaccine: (value) => {
     if (value) {
       return true;
     }
-    return 'ეს ველი სავალდებულოა';
+    return "ეს ველი სავალდებულოა";
   },
 };
 
 const onSubmit = () => {
-  store.commit('vaccine/setVaccine', covidVaccine.value);
-  store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
-  store.commit('vaccine/setWaitingFor', waitingFor.value);
+  store.commit("vaccine/setVaccine", covidVaccine.value);
+  store.commit("vaccine/setVaccinationStage", vaccinatedlevel.value);
+  store.commit("vaccine/setWaitingFor", waitingFor.value);
   console.log(waitingFor.value);
-  router.push({ name: 'tips' });
+  router.push({ name: "tips" });
 };
 </script>
 

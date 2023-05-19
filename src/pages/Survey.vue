@@ -10,12 +10,8 @@
       <main class="flex justify-between">
         <div class="flex-col">
           <div>
-            <label class="font-bold text-lg"
-              >გაქვს გადატანილი Covid-19?*</label
-            >
-            <div
-              class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36"
-            >
+            <label class="font-bold text-lg">გაქვს გადატანილი Covid-19?*</label>
+            <div class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36">
               <label for="status-yes">
                 <Field
                   type="radio"
@@ -36,7 +32,7 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
                   value="no"
-                  @click="showAnti = false"
+                  @click="clickHandler"
                 />
                 არა
               </label>
@@ -48,24 +44,19 @@
                   class="form-radio text-black checked:ring-0 focus:ring-0 rounded-full outline-none"
                   v-model="covidStatus"
                   value="have_right_now"
-                  @click="showAnti = false"
+                  @click="clickHandler"
                 />
                 ახლა მაქვს
               </label>
             </div>
-            <ErrorMessage
-              name="status"
-              class="text-red-500 mt-1 ml-4"
-            />
+            <ErrorMessage name="status" class="text-red-500 mt-1 ml-4" />
           </div>
           <div v-if="showAnti" class="mt-10">
             <label class="font-bold text-lg mt-6"
               >ანტისხეულების ტესტი გაკეთებული გაქვს?*</label
             >
 
-            <div
-              class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36"
-            >
+            <div class="flex flex-col mt-6 space-y-1 text-lg font-bold w-36">
               <label for="vaccine-status-yes">
                 <Field
                   type="radio"
@@ -109,10 +100,7 @@
                 name="sickness"
                 v-model="sicknessDate"
               />
-              <ErrorMessage
-                name="sickness"
-                class="text-red-500 mt-2 ml-4"
-              />
+              <ErrorMessage name="sickness" class="text-red-500 mt-2 ml-4" />
               <Field class="hidden" name="sickness" />
             </Form>
           </div>
@@ -163,57 +151,78 @@
 </template>
 
 <script setup>
-import BaseHeader from '@/components/BaseHeader.vue';
-import CustomButton from '../components/CustomButton.vue';
-import IconSurvey from '../components/icons/IconSurvey.vue';
-import IconPreviousButton from '../components/icons/IconPreviousButton.vue';
-import { ref, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import { setLocale } from '@vee-validate/i18n';
-import { useRouter } from 'vue-router';
+import BaseHeader from "@/components/BaseHeader.vue";
+import CustomButton from "../components/CustomButton.vue";
+import IconSurvey from "../components/icons/IconSurvey.vue";
+import IconPreviousButton from "../components/icons/IconPreviousButton.vue";
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import { setLocale } from "@vee-validate/i18n";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const router = useRouter();
 
-const covidStatus = ref(localStorage.getItem('had_covid') || '');
+const covidStatus = ref(localStorage.getItem("had_covid") || "");
 
-const vaccineStatus = ref(
-  localStorage.getItem('had_antibody_test') || ''
-);
+const vaccineStatus = ref(localStorage.getItem("had_antibody_test") || "");
 
-const testDate = ref('');
-const number = ref('');
+const testDate = ref("");
+const number = ref("");
 
 onMounted(() => {
-  const storedAntibodies = localStorage.getItem('antibodies');
-  const antibodies = storedAntibodies
-    ? JSON.parse(storedAntibodies)
-    : null;
+  const storedAntibodies = localStorage.getItem("antibodies");
+  const antibodies = storedAntibodies ? JSON.parse(storedAntibodies) : null;
 
   if (antibodies) {
-    testDate.value = antibodies.test_date || '';
-    number.value = antibodies.number || '';
+    testDate.value = antibodies.test_date || "";
+    number.value = antibodies.number || "";
   }
+
+  const storedShowAnti = localStorage.getItem("showAnti");
+  const storedDate = localStorage.getItem("date");
+  const storedNum = localStorage.getItem("num");
+
+  showAnti.value = storedShowAnti === "true";
+  date.value = storedDate === "true";
+  num.value = storedNum === "true";
 });
-const sicknessDate = ref(
-  localStorage.getItem('covid_sickness_date') || ''
-);
+
+const sicknessDate = ref(localStorage.getItem("covid_sickness_date") || "");
 const showAnti = ref(false);
 const date = ref(false);
 const num = ref(false);
 
 const showAntiTest = () => {
   showAnti.value = true;
+  localStorage.setItem("showAnti", "true");
+  localStorage.setItem("date", "false");
+  localStorage.setItem("num", "false");
 };
 const showAntiTestDate = () => {
   date.value = true;
   num.value = false;
+  localStorage.setItem("showAnti", "true");
+  localStorage.setItem("date", "true");
+  localStorage.setItem("num", "false");
 };
 
 const showNum = () => {
   num.value = true;
   date.value = false;
+  localStorage.setItem("showAnti", "true");
+  localStorage.setItem("date", "false");
+  localStorage.setItem("num", "true");
+};
+
+const clickHandler = () => {
+  showAnti.value = false;
+  localStorage.setItem("showAnti", "false");
+  date.value = false;
+  localStorage.setItem("date", "false");
+  num.value = false;
+  localStorage.setItem("num", "false");
 };
 
 const schema = {
@@ -222,20 +231,20 @@ const schema = {
       return true;
     }
 
-    return 'ეს ველი სავალდებულოა';
+    return "ეს ველი სავალდებულოა";
   },
 };
 
 const onSubmit = () => {
-  store.commit('survey/setHadCovid', covidStatus.value);
-  store.commit('survey/setHadAntibodyTest', vaccineStatus.value);
-  store.commit('survey/setCovidSicknessDate', sicknessDate.value);
+  store.commit("survey/setHadCovid", covidStatus.value);
+  store.commit("survey/setHadAntibodyTest", vaccineStatus.value);
+  store.commit("survey/setCovidSicknessDate", sicknessDate.value);
   const antibodies = {
     test_date: testDate.value || null,
     number: number.value || null,
   };
-  localStorage.setItem('antibodies', JSON.stringify(antibodies));
-  router.push({ name: 'vaccine' });
+  localStorage.setItem("antibodies", JSON.stringify(antibodies));
+  router.push({ name: "vaccine" });
 };
 </script>
 
