@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'2/4'" />
+    <BaseHeader :count="'2/4'" />
 
     <Form
       :validation-schema="schema"
@@ -144,18 +144,16 @@
         <div class="relative">
           <img src="@/assets/images/gumBoy.png" alt="" width="900" />
           <transition name="slide-out" appear key="survey">
-            <img
-              src="@/assets/logos/surveyLogo.png"
-              alt=""
+            <icon-survey
               class="absolute bottom-96 left-16 opacity-80 z-30"
-            />
+            ></icon-survey>
           </transition>
         </div>
       </main>
       <div class="flex justify-center items-center space-x-20">
         <div class="">
           <router-link :to="{ name: 'personal' }">
-            <img src="@/assets/images/previous.png" alt="" />
+            <icon-previous-button></icon-previous-button>
           </router-link>
         </div>
         <CustomButton type="submit">click</CustomButton>
@@ -165,8 +163,10 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
 import CustomButton from '../components/CustomButton.vue';
+import IconSurvey from '../components/icons/IconSurvey.vue';
+import IconPreviousButton from '../components/icons/IconPreviousButton.vue';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { Field, Form, ErrorMessage } from 'vee-validate';

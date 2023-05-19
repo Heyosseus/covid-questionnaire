@@ -3,30 +3,30 @@
     class="flex flex-col items-center justify-center min-h-[100vh]"
   >
     <img
-      v-show="currentImage === '/src/assets/images/redberryLogo.png'"
+      v-if="currentImage === redberryLogo"
       :src="currentImage"
       :class="imageClass"
     />
     <img
-      v-show="currentImage !== '/src/assets/images/redberryLogo.png'"
+      v-if="currentImage !== redberryLogo"
       :src="currentImage"
       :class="imageClass"
     />
 
     <div
-      v-if="currentImage === '/src/assets/images/redberryLogo.png'"
+      v-if="currentImage === redberryLogo"
     >
       <transition name="slide" appear>
         <div class="image-container mt-56 relative" @click="navigate">
           <img
-            src="@/assets/logos/startingSurvey.png"
+            :src="startQuestionaire"
             alt=""
             class="hover-trigger"
             @mouseenter="showSecondImage = true"
           />
           <img
             v-if="showSecondImage"
-            src="@/assets/logos/shadow.png"
+            :src="shadowForStart"
             alt=""
             class="show-on-hover"
           />
@@ -36,11 +36,19 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import redberryLogo from "@/assets/images/redberryLogo.png";
+import backgroundRedberry from "@/assets/images/backgroundRedberry.png";
+import startingSurvey from "@/assets/logos/startingSurvey.png";
+import shadow from "@/assets/logos/shadow.png";
 
-const currentImage = ref('/src/assets/images/backgroundRedberry.png');
+const startQuestionaire = ref(startingSurvey);
+const shadowForStart = ref(shadow);
+
+const currentImage = ref(backgroundRedberry);
 const showSecondImage = ref(false);
 const router = useRouter();
 
@@ -50,17 +58,18 @@ const navigate = () => {
 
 onMounted(() => {
   setTimeout(() => {
-    currentImage.value = '/src/assets/images/redberryLogo.png';
+    currentImage.value = redberryLogo;
   }, 900);
 });
 
 const imageClass = computed(() => {
   return currentImage.value ===
-    '/src/assets/images/backgroundRedberry.png'
+    backgroundRedberry
     ? 'animate'
     : 'fixed flex justify-end items-center';
 });
 </script>
+
 
 <style>
 .text:hover {
@@ -105,7 +114,7 @@ const imageClass = computed(() => {
 
 .slide-enter-to,
 .slide-leave-from {
-  transform: translatey(0);
+  transform: translateY(0);
   opacity: 1;
 }
 </style>

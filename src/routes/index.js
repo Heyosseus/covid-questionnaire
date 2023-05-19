@@ -1,35 +1,41 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../pages/Home.vue";
+import PersonalInfo from "../pages/PersonalInfo.vue";
+import Survey from "../pages/Survey.vue";
+import Vaccine from "../pages/Vaccine.vue";
+import Tips from "../pages/Tips.vue";
+import Thanks from "../pages/Thanks.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: () => import('../pages/Home.vue'),
+    path: "/",
+    name: "home",
+    component: Home,
   },
   {
-    path: '/personal',
-    name: 'personal',
-    component: () => import('../pages/PersonalInfo.vue'),
+    path: "/personal",
+    name: "personal",
+    component: PersonalInfo,
   },
   {
-    path: '/survey',
-    name: 'survey',
-    component: () => import('../pages/Survey.vue'),
+    path: "/survey",
+    name: "survey",
+    component: Survey,
   },
   {
-    path: '/vaccine',
-    name: 'vaccine',
-    component: () => import('../pages/Vaccine.vue'),
+    path: "/vaccine",
+    name: "vaccine",
+    component: Vaccine,
   },
   {
-    path: '/tips',
-    name: 'tips',
-    component: () => import('../pages/Tips.vue'),
+    path: "/tips",
+    name: "tips",
+    component: Tips,
   },
   {
-    path: '/thanks',
-    name: 'thanks',
-    component: () => import('../pages/Thanks.vue'),
+    path: "/thanks",
+    name: "thanks",
+    component: Thanks,
   },
 ];
 

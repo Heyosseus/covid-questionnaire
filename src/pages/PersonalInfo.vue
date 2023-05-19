@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'1/4'" />
+    <BaseHeader :count="'1/4'" />
     <Form
       @submit="onSubmit"
       :name="name"
@@ -11,8 +11,8 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
-import Form from '../components/personal/Form.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
+import Form from '../components/personal/PersonalForm.vue'; 
 </script>
 
 <style>

@@ -1,6 +1,6 @@
 <template>
   <div class="py-24 px-44">
-    <Header :count="'3/4'" />
+    <BaseHeader :count="'3/4'" />
 
     <Form
       :validation-schema="schema"
@@ -171,11 +171,9 @@
         <div class="relative">
           <img src="@/assets/images/doctor.png" alt="" class="mt-6" />
           <transition name="slide-in" appear>
-            <img
-              src="@/assets/logos/vaccineLogo.png"
-              alt=""
+            <icon-vaccine
               class="absolute top-0 mb-10 left-8 opacity-60"
-            />
+            ></icon-vaccine>
           </transition>
         </div>
       </main>
@@ -183,7 +181,7 @@
       <div class="flex justify-center items-center space-x-20">
         <div>
           <router-link :to="{ name: 'survey' }">
-            <img src="@/assets/images/previous.png" alt="" />
+            <icon-previous-button></icon-previous-button>
           </router-link>
         </div>
         <CustomButton type="submit"></CustomButton>
@@ -193,8 +191,10 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue';
+import BaseHeader from '@/components/BaseHeader.vue';
 import CustomButton from '@/components/CustomButton.vue';
+import IconVaccine from '../components/icons/IconVaccine.vue';
+import IconPreviousButton from '../components/icons/IconPreviousButton.vue';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -231,8 +231,6 @@ const covidVaccine = ref(localStorage.getItem('had_vaccine') || '');
 
 const waitingFor = ref(localStorage.getItem('i_am_waiting') || '');
 
-
-
 const vaccinatedlevel = ref(
   localStorage.getItem('vaccination_stage') || null
 );
@@ -245,9 +243,7 @@ const schema = {
   },
 };
 
-
 const onSubmit = () => {
-
   store.commit('vaccine/setVaccine', covidVaccine.value);
   store.commit('vaccine/setVaccinationStage', vaccinatedlevel.value);
   store.commit('vaccine/setWaitingFor', waitingFor.value);
